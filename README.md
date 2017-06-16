@@ -35,9 +35,25 @@ else
 end
 
 lasdjhgfsakdf.size > 1
+
+#clases
+
+##hangman
+  
+
+  @number_ofLimbs
+
+  Most methods
+
+
+##player
+
+  @name
+  @wins
+
 ##variabless
 
-@number_of_limbs =
+
 
 ##potential flow
 
