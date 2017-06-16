@@ -1,0 +1,8 @@
+#!/usr/local/bin/ruby -w
+
+
+Hangman.welcome
+
+game = Hangman.new
+
+game.playgame

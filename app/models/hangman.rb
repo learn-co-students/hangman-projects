@@ -23,6 +23,11 @@ class Hangman
       self.get_input
       self.check_input
     end
+
+    puts "hit playgame"
+
+    p @player1
+    p @player2
   end
 
 
