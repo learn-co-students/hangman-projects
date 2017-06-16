@@ -1,0 +1,4 @@
+source "https://rubygems.org"
+
+gem "pry"
+gem 'random-word-generator', '~> 0.0.1'
