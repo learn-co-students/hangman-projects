@@ -39,7 +39,7 @@ lasdjhgfsakdf.size > 1
 #clases
 
 ##hangman
-  
+
 
   @number_ofLimbs
 
@@ -84,7 +84,7 @@ check input         |
   V                 |
 game_over? - - - - |
                    |
-end game  -----------
+end game  <-----------
 
 
 
