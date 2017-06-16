@@ -1,4 +1,7 @@
 source "https://rubygems.org"
 
 gem "pry"
-gem 'random-word-generator', '~> 0.0.1'
+gem 'sqlite3-ruby'
+# gem 'random-word-generator', '~> 0.0.1'
+gem 'require_all'
+gem 'random-word'

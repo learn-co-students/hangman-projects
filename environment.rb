@@ -1,6 +1,10 @@
 require 'bundler'
 require 'pry'
-require_relative 'app/*'
-require_relative 'bin/run'
+require 'require_all'
+require 'sqlite3'
+require 'random-word'
+# require 'random-word-generator'
 
-bundler.require
+require_all './app'
+
+Bundler.require
