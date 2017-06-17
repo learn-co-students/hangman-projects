@@ -102,7 +102,7 @@ class Hangman
     puts "Player 1, please enter a word containing letters a-z. Player 2 don't look!"
     #doesn't show input
     #set secret_word to instance variable so can access in check_input
-    @secret_word = STDIN.noecho(&:gets)
+    @secret_word = STDIN.noecho(&:gets).chomp
     self.make_dashes(secret_word)
     #binding.pry
   end
