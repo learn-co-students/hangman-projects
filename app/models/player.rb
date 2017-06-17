@@ -6,6 +6,7 @@ class Player
   def initialize(name="player")
     @name = name
     @wins = 0
+    @losses = 0
     @@all << self
   end
 

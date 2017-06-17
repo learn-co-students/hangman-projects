@@ -9,7 +9,7 @@ class Hangman
   @@guessed_letters = []
   @@HANGMAN_STRINGS = [
 "    _________
-   |          
+   |
    |
    |
    |
@@ -194,11 +194,34 @@ class Hangman
     #increment either players win count
     #how will we choose which player's win count to increment?
     #self.players[]
+    dashes_without_spaces = @dashes.gsub(/\s+/, "")
     if dashes_without_spaces == @secret_word
       #Player 2 wins
+      @player1.losses += 1
+      @player2.wins += 1
     else
       #Player 1 wins
+      @player2.losses += 1
+      @player1.wins += 1
     end
+
+    puts "#{@player1.name}'s record is #{@player1.wins} wins and #{@player1.losses} losses"
+    puts "#{@player2.name}'s record is #{@player2.wins} wins and #{@player2.losses} losses"
+
+
+    input = nil
+    until input == "y" || input == "n" do
+      puts "Would you like to play another round? (y/n)"
+
+      input = gets.chomp.downcase
+
+      if input == "y"
+        self.playgame
+      end
+
+    end
+
+    puts "Thank you for playing Hangman have a great day!"
 
   end
 
