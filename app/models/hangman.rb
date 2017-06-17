@@ -6,7 +6,7 @@ class Hangman
   @@player2_name = nil
 
   @@number_of_limbs = 0
-
+  @@guessed_letters = []
   @@HANGMAN_STRINGS = [
 "    _________
    |
@@ -59,7 +59,7 @@ class Hangman
 ",
   ]
   attr_accessor :players, :number_oflimbs, :dashes, :secret_word
-  attr_reader :letter
+  attr_reader :letter, :guessed_letters
 
   def initialize()
     ###This is not a good practice...
@@ -86,8 +86,9 @@ class Hangman
     until self.game_over? do
       input = self.get_input
       self.check_input(input)
-      binding.pry
+      #binding.pry
       self.draws_hangman_and_dashes
+      #binding.pry
     end
     self.end_game
   end
@@ -100,6 +101,7 @@ class Hangman
     #set secret_word to instance variable so can access in check_input
     @secret_word = STDIN.noecho(&:gets)
     self.make_dashes(secret_word)
+    #binding.pry
   end
 
   def make_dashes(secret_word)
@@ -114,9 +116,9 @@ class Hangman
   end
 
   def draws_hangman_and_dashes  ##draws hangman and dashes
-    stuff = @@HANGMAN_STRINGS[@@number_of_limbs]
+    hangman = @@HANGMAN_STRINGS[@@number_of_limbs]
     #binding.pry
-    puts stuff #when do we set number_of_limbs
+    puts hangman #when do we set number_of_limbs
     self.make_dashes(@@dashes)
     #binding.pry
   end
@@ -127,24 +129,34 @@ class Hangman
     puts "Please enter a letter."
     letter = gets.chomp
     @input = letter
-    binding.pry
+    #binding.pry
   end
 
   def check_input(input)
     ##check to see if the input is equal to a character in the secret_word
-    @secret_word.chars.include?(@input) ? true : false
+    @secret_word.chars.include?(@input) ? self.correct_guess(input) : self.incorrect_guess
+    #binding.pry
+  end
+
+  def incorrect_guess(input)
+    #adds limb
+    @number_of_limbs += 1
+    self.display_guessed_letters
+  end
+
+  def correct_guess(input)#inserts letter into dash index(es)
+    word = @secret_word.chars
+    index_num = []
+    word.each_with_index { |value, idx| index_num << idx if value == input }
     binding.pry
+    index = index_num.join().to_i
+    @@dashes.insert(index, input).join(", ")
+    self.display_guessed_letters
   end
 
-  def incorrect_guess
-    #subracts limb
-    @number_of_limbs -= 1
+  def display_guessed_letters
+    @guessed_letters
   end
-
-  def correct_guess
-    #inserts letter into proper dash index(es)
-  end
-
 
   def game_over?
     ##Checks to see if the game has been won by player2
