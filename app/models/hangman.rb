@@ -164,6 +164,13 @@ class Hangman
     ##check to see how many limbs are hanging
     ## return true if game over
 
+    if @dashes == @secret_word || number_of_limbs >=
+
+    else
+      return false
+
+    end
+
   end
 
   def end_game
