@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require './lib/game.rb'
+require './lib/display_board.rb'
+
+# display_array defined for testing purposes
+display_array = ["_", "_", "_", "_", "_" ]
+
+puts "Can you save yourself from the gallows pole?"
+
+# incorrect_guesses will start as an empty array
+
+incorrect_guesses = []
+
+board = DisplayBoard.new(incorrect_guesses)
+board.gallows
