@@ -122,7 +122,7 @@ class Hangman
     #binding.pry
     puts hangman #when do we set number_of_limbs
 
-    self.make_dashes(@secret_word)
+    puts @dashes
 
     #binding.pry
   end
@@ -141,7 +141,7 @@ class Hangman
     @secret_word.chars.include?(@input) ? self.correct_guess(input) : self.incorrect_guess
   end
 
-  def incorrect_guess(input)
+  def incorrect_guess
     #adds limb
     @number_of_limbs += 1
     self.display_guessed_letters
@@ -151,10 +151,9 @@ class Hangman
     word = @secret_word.chars
     index_num = []
     word.each_with_index { |value, idx| index_num << idx if value == input }
-    binding.pry
     index = index_num.join().to_i
-    @dashes.insert(index, input)
-    binding.pry
+    index *= 2
+    @dashes[index]= input
     self.display_guessed_letters
   end
 
