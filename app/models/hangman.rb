@@ -138,7 +138,7 @@ class Hangman
 
   def incorrect_guess
     #subracts limb
-    @number_of_limbs -= 1
+    @number_of_limbs += 1
   end
 
   def correct_guess
@@ -151,6 +151,13 @@ class Hangman
     ##compares dashes string to secret_word
     ##check to see how many limbs are hanging
     ## return true if game over
+
+    if @dashes == @secret_word || number_of_limbs >=
+
+    else
+      return false
+
+    end
 
   end
 
