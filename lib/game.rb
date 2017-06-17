@@ -146,6 +146,12 @@ class Game
     user_input = gets.upcase.chomp
     if !valid_move?(user_input)
       turn
+    elsif self.incorrect_guesses.include?(user_input)
+      puts "You already guessed that, and it's wrong!"
+      turn
+    elsif self.display_array.include?(user_input)
+      puts "That's already on the board..."
+      turn
     else
       self.correct?(user_input)
     end
