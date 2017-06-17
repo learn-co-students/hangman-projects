@@ -20,7 +20,6 @@ class DisplayBoard
   def show
   end
 
-
   # The #gallows method works
   def gallows
     gal_one = " __________"
