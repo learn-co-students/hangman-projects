@@ -59,7 +59,7 @@ class Hangman
 ",
   ]
 
-  attr_accessor :players, :number_of_limbs, :dashes, :secret_word
+  attr_accessor :players, :number_of_limbs, :dashes, :secret_word, :secret_char_array
 
   attr_reader :letter, :guessed_letters
 
@@ -103,6 +103,7 @@ class Hangman
     #doesn't show input
     #set secret_word to instance variable so can access in check_input
     @secret_word = STDIN.noecho(&:gets).chomp
+    @secret_char_array = @secret_word.chars
     self.make_dashes(secret_word)
     #binding.pry
   end
@@ -148,9 +149,16 @@ class Hangman
   end
 
   def correct_guess(input)#inserts letter into dash index(es)
-    word = @secret_word.chars
+    # word = @secret_word.chars
     index = nil
-    word.each_with_index { |value, idx| index = idx if value == input }
+    @secret_char_array.each_with_index do |value, idx|
+      if value == input
+        index = idx
+        @secret_char_array[index] = " "
+        break
+      end
+      # break if index
+    end
     index *= 2
     @dashes[index]= input
     self.display_guessed_letters
