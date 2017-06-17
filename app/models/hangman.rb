@@ -153,7 +153,8 @@ class Hangman
     word.each_with_index { |value, idx| index_num << idx if value == input }
     binding.pry
     index = index_num.join().to_i
-    @dashes.insert(index, input).join(", ")
+    @dashes.insert(index, input)
+    binding.pry
     self.display_guessed_letters
   end
 
