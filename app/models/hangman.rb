@@ -149,9 +149,8 @@ class Hangman
 
   def correct_guess(input)#inserts letter into dash index(es)
     word = @secret_word.chars
-    index_num = []
-    word.each_with_index { |value, idx| index_num << idx if value == input }
-    index = index_num.join().to_i
+    index = nil
+    word.each_with_index { |value, idx| index = idx if value == input }
     index *= 2
     @dashes[index]= input
     self.display_guessed_letters
