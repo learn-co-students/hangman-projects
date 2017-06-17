@@ -134,6 +134,9 @@ class Hangman
     puts "Please enter a letter."
     letter = gets.chomp
     @input = letter
+      if @input == "exit"
+        abort("Bye, Felicia!")
+      end
     #binding.pry
   end
 
@@ -193,7 +196,4 @@ class Hangman
 
   end
 
-
-
-  #some sort of method to end game at any time
 end
