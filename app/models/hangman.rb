@@ -1,3 +1,4 @@
+require 'io/console'
 require 'pry'
 class Hangman
 
@@ -93,7 +94,7 @@ class Hangman
     ##Gets secret_word from Player 1
     ##Sets secret_word equal to Player 1 input
     puts "Player 1, please enter a word containing letters a-z. Player 2 don't look!"
-    secret_word = gets.chomp
+    @secret_word = STDIN.noecho(&:gets) #doesn't show input as typing, but what if they spell incorrectly?
     self.make_dashes(secret_word)
   end
 
@@ -124,9 +125,9 @@ class Hangman
     letter = gets.chomp
   end
 
-  def self.check_input(input)
+  def check_input(input)
     ##check to see if the input is equal to a character in the secret_word
-    input == secret_word ? true : false #how do i get secret word??
+    input == @secret_word ? true : false #how do i get secret word??
 
   end
 
