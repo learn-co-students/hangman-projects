@@ -58,7 +58,8 @@ class Hangman
    |
 ",
   ]
-  attr_accessor :number_oflimbs, :dashes, :secret_word
+  attr_accessor :players, :number_oflimbs, :dashes, :secret_word
+  attr_reader :letter
 
   def initialize()
     ###This is not a good practice...
@@ -85,6 +86,7 @@ class Hangman
     until self.game_over? do
       input = self.get_input
       self.check_input(input)
+      binding.pry
       self.draws_hangman_and_dashes
     end
     self.end_game
@@ -94,12 +96,13 @@ class Hangman
     ##Gets secret_word from Player 1
     ##Sets secret_word equal to Player 1 input
     puts "Player 1, please enter a word containing letters a-z. Player 2 don't look!"
-    @secret_word = STDIN.noecho(&:gets) #doesn't show input as typing, but what if they spell incorrectly?
+    #doesn't show input
+    #set secret_word to instance variable so can access in check_input
+    @secret_word = STDIN.noecho(&:gets)
     self.make_dashes(secret_word)
   end
 
   def make_dashes(secret_word)
-    #binding.pry
     #draws dashes
     #sets secret_word equal to @@dashes
     @@dashes = secret_word
@@ -123,12 +126,14 @@ class Hangman
     ##if we have time we'll validate the data so that it is only ever one char a-z (have input shovel to an array and shift first element off??)
     puts "Please enter a letter."
     letter = gets.chomp
+    @input = letter
+    binding.pry
   end
 
   def check_input(input)
     ##check to see if the input is equal to a character in the secret_word
-    input == @secret_word ? true : false #how do i get secret word??
-
+    @secret_word.chars.include?(@input) ? true : false
+    binding.pry
   end
 
   def incorrect_guess
@@ -151,7 +156,8 @@ class Hangman
 
   def end_game
     #increment either players win count
-
+    #how will we choose which player's win count to increment?
+    #self.players[]
 
   end
 
