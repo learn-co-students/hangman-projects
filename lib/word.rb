@@ -1,4 +1,7 @@
-require_relative 'letter.rb'
+require "require_all"
+
+require_all 'lib'
+# require_relative 'letter.rb'
 require 'pry'
 
 class Word
