@@ -1,5 +1,5 @@
 class Player
-  attr_accessor :name, :wins
+  attr_accessor :name, :wins, :losses
 
   @@all = []
 

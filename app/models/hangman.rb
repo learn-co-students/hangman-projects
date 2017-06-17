@@ -38,21 +38,21 @@ class Hangman
 ",
 "    _________
    |         0
-   |        /|\ \n
+   |        /|\
    |
    |
    |
 ",
 "    _________
    |         0
-   |        /|\ \n
+   |        /|\
    |        /
    |
    |
 ",
 "    _________
    |         0
-   |        /|\ \n
+   |        /|\
    |        / \
    |
    |
@@ -89,9 +89,7 @@ class Hangman
     until self.game_over? do
       input = self.get_input
       self.check_input(input)
-      #binding.pry
       self.draws_hangman_and_dashes
-      #binding.pry
     end
     self.end_game
   end
@@ -119,9 +117,9 @@ class Hangman
   end
 
   def draws_hangman_and_dashes  ##draws hangman and dashes
-    hangman = @@HANGMAN_STRINGS[@@number_of_limbs]
+    hangman = @@HANGMAN_STRINGS[@number_of_limbs]
     #binding.pry
-    puts hangman #when do we set number_of_limbs
+    puts hangman
 
     puts @dashes
 
@@ -139,7 +137,7 @@ class Hangman
 
   def check_input(input)
     ##check to see if the input is equal to a character in the secret_word
-    @secret_word.chars.include?(@input) ? self.correct_guess(input) : self.incorrect_guess
+    @secret_char_array.include?(@input) ? self.correct_guess(input) : self.incorrect_guess
   end
 
   def incorrect_guess
@@ -186,7 +184,9 @@ class Hangman
     #increment either players win count
     #how will we choose which player's win count to increment?
     #self.players[]
+    '
 
+    '
 
 
   end
