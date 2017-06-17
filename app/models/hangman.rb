@@ -72,11 +72,8 @@ class Hangman
 
   def initialize()
     ###This is not a good practice...
-    #TODO: switch these method calls to find_by_name
-    ###PLAYER NEEDS METHOD NEW OR FIND BY NAME!!!!!
-    @number_of_limbs = 0
-    @player1 = Player.new(@@player1_name)
-    @player2 = Player.new(@@player2_name)
+    @player1 = Player.new_or_find_by_name(@@player1_name)
+    @player2 = Player.new_or_find_by_name(@@player2_name)
   end
 
   def self.welcome
@@ -89,15 +86,17 @@ class Hangman
 
 
   def playgame
+
     self.get_word #draws initial dashes
-    #binding.pry
+
     self.draws_hangman_and_dashes #draws hangman and remaining dashes
-    #binding.pry
+
     until self.game_over? do
       input = self.get_input
       self.check_input(input)
       self.draws_hangman_and_dashes
     end
+
     self.end_game
   end
 
@@ -124,41 +123,37 @@ class Hangman
     puts @dashes
   end
 
-  def draws_hangman_and_dashes  ##draws hangman and dashes
-    hangman = @@HANGMAN_STRINGS[@number_of_limbs]
-    #binding.pry
-    puts hangman
+  def draws_hangman_and_dashes
+
+    puts @@HANGMAN_STRINGS[@number_of_limbs]
 
     puts @dashes
 
-    #binding.pry
   end
 
   def get_input
-    ##get input from player and return
     ##if we have time we'll validate the data so that it is only ever one char a-z (have input shovel to an array and shift first element off??)
     puts "Please enter a letter."
     letter = gets.chomp
     @input = letter
       if @input == "exit"
         abort("Bye, Felicia!")
+        #love this!
       end
-    #binding.pry
   end
 
   def check_input(input)
-    ##check to see if the input is equal to a character in the secret_word
     @secret_char_array.include?(@input) ? self.correct_guess(@input) : self.incorrect_guess
   end
 
   def incorrect_guess
-    #adds limb
     @number_of_limbs += 1
     self.display_guessed_letters
   end
 
-  def correct_guess(input)#inserts letter into dash index(es)
+  def correct_guess(input)
     index = nil
+    #sets index equal to the index of the character in secret word
     @secret_char_array.each_with_index do |value, idx|
       if value == input
         index = idx
@@ -166,6 +161,7 @@ class Hangman
         break
       end
     end
+    #multiply by two to account for spaces inbetween the dashes
     index *= 2
     @dashes[index]= input
     self.display_guessed_letters
@@ -176,10 +172,6 @@ class Hangman
   end
 
   def game_over?
-    ##Checks to see if the game has been won by player2
-    ##compares dashes string to secret_word
-    ##check to see how many limbs are hanging
-    ## return true if game over
 
     dashes_without_spaces = @dashes.gsub(/\s+/, "")
 
@@ -192,9 +184,7 @@ class Hangman
   end
 
   def end_game
-    #increment either players win count
-    #how will we choose which player's win count to increment?
-    #self.players[]
+    
     dashes_without_spaces = @dashes.gsub(/\s+/, "")
     if dashes_without_spaces == @secret_word
       #Player 2 wins
