@@ -9,6 +9,7 @@ class Hangman
   @@guessed_letters = []
   @@HANGMAN_STRINGS = [
 "    _________
+   |          
    |
    |
    |
@@ -16,6 +17,7 @@ class Hangman
    |
 ",
 "    _________
+   |         |
    |         0
    |
    |
@@ -23,6 +25,7 @@ class Hangman
    |
 ",
 "    _________
+   |         |
    |         0
    |         |
    |
@@ -30,6 +33,7 @@ class Hangman
    |
 ",
 "    _________
+   |         |
    |         0
    |        /|
    |
@@ -37,6 +41,7 @@ class Hangman
    |
 ",
 "    _________
+   |         |
    |         0
    |        /|\\
    |
@@ -44,6 +49,7 @@ class Hangman
    |
 ",
 "    _________
+   |         |
    |         0
    |        /|\\
    |        /
@@ -51,6 +57,7 @@ class Hangman
    |
 ",
 "    _________
+   |         |
    |         0
    |        /|\\
    |        / \\
@@ -187,10 +194,11 @@ class Hangman
     #increment either players win count
     #how will we choose which player's win count to increment?
     #self.players[]
-    '
-
-    '
-
+    if dashes_without_spaces == @secret_word
+      #Player 2 wins
+    else
+      #Player 1 wins
+    end
 
   end
 
