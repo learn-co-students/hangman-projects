@@ -149,7 +149,6 @@ class Hangman
   end
 
   def correct_guess(input)#inserts letter into dash index(es)
-    # word = @secret_word.chars
     index = nil
     @secret_char_array.each_with_index do |value, idx|
       if value == input
@@ -157,7 +156,6 @@ class Hangman
         @secret_char_array[index] = " "
         break
       end
-      # break if index
     end
     index *= 2
     @dashes[index]= input
