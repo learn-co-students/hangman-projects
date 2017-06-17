@@ -104,6 +104,7 @@ class Hangman
   def get_word
     ##Gets secret_word from Player 1
     ##Sets secret_word equal to Player 1 input
+    @number_of_limbs = 0
     puts "Player 1, please enter a word containing letters a-z. Player 2 don't look!"
     #doesn't show input
     #set secret_word to instance variable so can access in check_input
