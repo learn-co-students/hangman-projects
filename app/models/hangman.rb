@@ -140,7 +140,7 @@ class Hangman
 
   def check_input(input)
     ##check to see if the input is equal to a character in the secret_word
-    @secret_char_array.include?(@input) ? self.correct_guess(input) : self.incorrect_guess
+    @secret_char_array.include?(@input) ? self.correct_guess(@input) : self.incorrect_guess
   end
 
   def incorrect_guess
