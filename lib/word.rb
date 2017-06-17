@@ -55,13 +55,12 @@ class Word
     end
   end
 
-
 end
 
-word = Word.new
-word.get_answer
-puts word.blanks
-guess = 'a'
-word.guess(guess)
+# word = Word.new
+# word.get_answer
+# puts word.blanks
+# guess = 'a'
+# word.guess(guess)
 
 # Pry.start
