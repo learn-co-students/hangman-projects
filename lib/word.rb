@@ -3,9 +3,10 @@ require "require_all"
 require_all 'lib'
 # require_relative 'letter.rb'
 require 'pry'
+require 'unirest'
 
 class Word
-  attr_reader :answer, :letters
+  attr_reader :answer, :letters, :synonyms
 
   @@library = ['bear', 'rabbit', 'rainbow', 'ambiguous', 'detailed', 'chances', 'complicated', 'alabaster', 'aardvark', 'simplification', 'disparate', 'unaltered', 'amazed', 'fragile', 'daytime', 'dynasty', 'basic', 'civilization', 'deadly']
   @@used_words = []
@@ -21,6 +22,7 @@ class Word
   def initialize
     self.get_answer
     self.set_letters
+    self.get_synonyms
     @@used_words << self.answer
     @@library.delete(self.answer)
     # binding.pry
@@ -74,6 +76,21 @@ class Word
 
   def display_board
     self.blanks.join(' ')
+  end
+
+  def get_synonyms(word)
+    word = self.answer
+    response = Unirest.get "https://wordsapiv1.p.mashape.com/words/#{word}/synonyms",
+    headers:{
+      "X-Mashape-Key" => "zgo00BG7RRmshJnS6VwwquK8vmYip1hePaXjsnYkh6UE97WKnj",
+      "Accept" => "application/json"
+    }
+    # binding.pry
+    @synonyms = response.body["synonyms"]
+  end
+
+  def get_hint(word)
+    self.synonyms[0]
   end
 
 end
