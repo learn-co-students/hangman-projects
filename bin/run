@@ -1,3 +1,7 @@
 #!/usr/bin/env ruby
 require_relative '../environment.rb'
+
 load_good
+greeting
+display_commands
+get_user_input
