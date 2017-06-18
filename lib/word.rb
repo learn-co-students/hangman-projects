@@ -78,6 +78,10 @@ class Word
     end
   end
 
+  def display_guesses
+    self.guesses.select{|guess| guess[:valid] == false}.map{|guess| guess[:character]}.uniq.join(' ')
+  end
+
   def display_board
     self.blanks.join(' ')
   end
@@ -94,6 +98,7 @@ class Word
   end
 
   def get_hint
+    self.get_synonyms
     self.synonyms[0]
   end
 

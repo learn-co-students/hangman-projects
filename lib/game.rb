@@ -50,14 +50,15 @@ def get_letter
   letter = ""
   loop do
     puts "Guess a letter or enter 'FF' to forfeit: "
+    puts "Enter 'HINT' if you want a hint"
     letter = gets.chomp.downcase
     #check if user wants to forfeit
-    if letter == "ff"
+    if letter == "ff" || letter == "hint"
       break
-      #checks if user entered an actual letter [a-z]
+    #checks if user entered an actual letter [a-z]
     elsif letter[/[a-z]+/] == nil || letter[/[a-z]+/].size != letter.size || letter.size != 1
       puts "Invalid input... Please enter a single valid letter of the alphabet"
-      #valid letter
+    #valid letter
     else
       break
     end#if
@@ -67,15 +68,19 @@ end #get_letter
 
 #start game
 def start_game(player_name)
+
   player = Player.find_or_create(player_name)
   word = Word.new
   check_letters = false
   hang_man = 0
   forfeit = false
+  hint = ""
   while hang_man < 6 && !forfeit
     # !!!print out hang man and blanks
     puts hangman_img[hang_man]
     puts word.display_board
+    puts "Wrong Guesses: #{word.display_guesses}"
+    puts hint
     #prompts user to input letter
     letter = get_letter
     #checks if user wants to forfeit
@@ -83,6 +88,8 @@ def start_game(player_name)
       forfeit = true
       player.lost
       puts "It's okay to quit :("
+    elsif letter == "hint"
+      hint = "HINT: #{word.get_hint}"
     else
       # !!! pass guess to word instance
       word.guess(letter)
