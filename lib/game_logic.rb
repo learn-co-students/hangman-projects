@@ -15,6 +15,7 @@ end
 
 def checker(word_array, guess_array)
   penalty = 0
+  miss = []
   while penalty < 7
     guess = take_a_guess
     if guess == word_array.join
@@ -27,8 +28,10 @@ def checker(word_array, guess_array)
       abort ("Yay!") if guess_array == word_array
     else
       penalty += 1
+      p miss << guess
     end
   end
+  puts "You lose. :()"
 end
 
 a = word_to_array('hangman')
