@@ -98,6 +98,7 @@ def start_game(player_name)
       # !!! if all letters are guess && hang_man < 6 then game is won
       check_letters = word.letters.all? {|letter| letter.visible == true}
       if hang_man < 6 && check_letters
+        puts hangman_img[7]
         puts word.display_board
         puts "YOU WIN!"
         player.won
