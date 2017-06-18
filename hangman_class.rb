@@ -1,81 +1,84 @@
 require 'pry'
+require_relative './phrase.rb'
 
 class Hangman
 
   #create new unique game ID for user
-  attr_reader :game_id, :game_word
-  attr_accessor :guessed_letters, :game_won, :display_word_with_blanks, :counter, :user_input
+  attr_reader :game_id, :game_phrase
+  attr_accessor :guessed_letters, :display_word_with_blanks, :counter, :user_input, :game_phrase
 
   def initialize(game_word = "Hello")
-    @original_word = game_word
-    @game_word = game_word.downcase.split("")
     @game_id = 1
-    @guessed_letters = []
-    @game_won = false
     @counter = 0
-    @display_word_with_blanks = @game_word.map do |letter|
-       "-"
-    end
+    @game_phrase = Phrase.new(game_word)
   end
 
-  def disply_method
+  def display_method
     #this will be the picture
     puts @counter
     puts "Guess Your Letter"
-    puts @display_word_with_blanks.join(" ")
-    puts @guessed_letters.join(", ")
+    puts @game_phrase.get_display_phrase
+    puts @game_phrase.guessed_letters.join(", ")
   end
 
   def fill_in_blanks
-    @display_word_with_blanks = @game_word.map.with_index do |letter, index|
-      if letter == @user_input
-        letter
-      else
-        display_word_with_blanks[index]
-      end
-    end
+      @display_word
   end
 
   def check_word
-    if @user_input == @game_word.join("")
+    if @user_input == @game_phrase.true_string.join("").downcase
+      @game_phrase.display_string = @game_phrase.true_string
       @game_won = true
     else
       @counter = 6
     end
   end
 
+  def game_over?
+    @counter == 6 || @game_phrase.display_string == @game_phrase.true_string
+  end
+
+  def game_won?
+    if @game_phrase.display_string == @game_phrase.true_string
+      return true
+    elsif @counter == 6
+      return false
+    end
+  end
+
   def check_letter
-    if @game_word.include?(@user_input)
-      fill_in_blanks
-      if @display_word_with_blanks == @game_word
-        @game_won = true
-      end 
-    elsif @guessed_letters.include?(@user_input) || @display_word_with_blanks.include?(@user_input)
+    matching_locations = @game_phrase.get_matching_locations(@user_input)
+    # binding.pry
+    if matching_locations == "already guessed"
       puts "You've already guessed #{@user_input}. Guess again."
+    elsif !matching_locations.empty?
+      @game_phrase.update_display_str(matching_locations)
     else
+      # NOTE: put into phrase class, sanatize input
+      @game_phrase.guessed_letters << @user_input
       @counter += 1
-      @guessed_letters << @user_input
       puts "You Guessed Wrong"
     end
   end
 
   def start_game
+
+
     puts "Welcome to Hangman"
     puts "Here is your word, GUESS AWAY!!!"
-    puts ""
-    puts @display_word_with_blanks.join(" ")
 
-    until @counter == 6 || @game_won
-      disply_method
+    until self.game_over?
+      self.display_method
       @user_input = gets.chomp.downcase
       if @user_input.size > 1
-        check_word
+        self.check_word
       else
-        check_letter
+        self.check_letter
       end
     end
 
-    puts @game_won ? "Congrats, you won!" : "Another one bites the dust... ;,,,("
+    puts self.game_won? ? "Congrats, you won!" : "Another one bites the dust... ;,,,("
+    # puts "The correct word was #{@original_word}."
 
   end
 
