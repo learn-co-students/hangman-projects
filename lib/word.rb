@@ -7,7 +7,7 @@ require 'pry'
 class Word
   attr_reader :answer, :letters
 
-  @@library = ['bear', 'rabbit', 'rainbow', 'ambiguous', 'detailed', 'chances', 'complicated', 'alabaster', 'aardvark', 'simplification', 'disparate', 'unaltered', 'amazed', 'fragile']
+  @@library = ['bear', 'rabbit', 'rainbow', 'ambiguous', 'detailed', 'chances', 'complicated', 'alabaster', 'aardvark', 'simplification', 'disparate', 'unaltered', 'amazed', 'fragile', 'daytime', 'dynasty', 'basic', 'civilization', 'deadly']
   @@used_words = []
 
   def self.library
