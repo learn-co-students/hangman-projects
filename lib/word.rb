@@ -4,17 +4,18 @@ require_all 'lib'
 # require_relative 'letter.rb'
 require 'pry'
 require 'unirest'
+require 'random-word'
 
 class Word
-  attr_reader :answer, :letters, :synonyms
-  attr_accessor :guesses
+  attr_reader :answer, :letters, :synonyms, :definitions
+  attr_accessor :guesses, :hints
 
-  @@library = ['bear', 'rabbit', 'rainbow', 'ambiguous', 'detailed', 'chances', 'complicated', 'alabaster', 'aardvark', 'simplification', 'disparate', 'unaltered', 'amazed', 'fragile', 'daytime', 'dynasty', 'basic', 'civilization', 'deadly']
+  # @@library = ['bear', 'rabbit', 'rainbow', 'ambiguous', 'detailed', 'chances', 'complicated', 'alabaster', 'aardvark', 'simplification', 'disparate', 'unaltered', 'amazed', 'fragile', 'daytime', 'dynasty', 'basic', 'civilization', 'deadly']
   @@used_words = []
-
-  def self.library
-    @@library
-  end
+  #
+  # def self.library
+  #   @@library
+  # end
 
   def self.used_words
     @@used_words
@@ -24,17 +25,27 @@ class Word
     self.get_answer
     self.set_letters
     self.get_synonyms
+    self.get_definitions
+    self.hints = self.synonyms + self.definitions
     self.guesses = []
     @@used_words << self.answer
-    @@library.delete(self.answer)
+    RandomWord.exclude_list << self.answer
+    # @@library.delete(self.answer)
     # binding.pry
   end
 
   def get_answer
     # retrieve a random word from the @@library and set it equal to @answer
-    max_range = @@library.length - 1
-    rand_num = rand(0..max_range)
-    @answer = @@library[rand_num]
+    # max_range = @@library.length - 1
+    # rand_num = rand(0..max_range)
+    # @answer = @@library[rand_num]
+    RandomWord.exclude_list << /_/
+    num = rand(0..1)
+    if num == 0
+      @answer = RandomWord.nouns(not_longer_than: 15).next
+    elsif num == 1
+      @answer = RandomWord.adjs(not_long_than: 15).next
+    end
   end
 
   def set_letters
@@ -97,12 +108,27 @@ class Word
     @synonyms = response.body["synonyms"]
   end
 
+  def get_definitions
+    word = self.answer
+    response = Unirest.get "https://wordsapiv1.p.mashape.com/words/#{word}/definitions",
+    headers:{
+      "X-Mashape-Key" => "zgo00BG7RRmshJnS6VwwquK8vmYip1hePaXjsnYkh6UE97WKnj",
+      "Accept" => "application/json"
+    }
+    # binding.pry
+    @definitions = response.body["definitions"].map{|definition| definition["definition"] }
+  end
+
   def get_hint
-    max = self.synonyms.size
+    max = self.hints.size
     num = rand(0..(max-1))
-    binding.pry
-    hint = self.synonyms[num]
-    self.synonyms.delete(hint)
+    # binding.pry
+    if self.hints.size >= 1
+    hint = self.hints[num]
+      self.hints.delete(hint)
+    elsif self.hints == []
+      "No more hints!"
+    end
   end
 
 end
