@@ -184,7 +184,7 @@ class Hangman
   end
 
   def end_game
-    
+
     dashes_without_spaces = @dashes.gsub(/\s+/, "")
     if dashes_without_spaces == @secret_word
       #Player 2 wins
@@ -211,8 +211,6 @@ class Hangman
       end
 
     end
-
-    puts "Thank you for playing Hangman have a great day!"
 
   end
 
