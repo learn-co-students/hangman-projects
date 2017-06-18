@@ -14,7 +14,8 @@ def get_synonyms(word)
   }
   # binding.pry
   synonyms = response.body["synonyms"]
-  print synonyms.join(', ')
+  synonyms.join(', ')
 end
 
+# def get_hint()
 # Pry.start

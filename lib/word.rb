@@ -7,11 +7,23 @@ require 'pry'
 class Word
   attr_reader :answer, :letters
 
-  @@library = ['bear', 'rabbit', 'rainbow', 'ambiguous', 'detailed', 'chances', 'complicated']
+  @@library = ['bear', 'rabbit', 'rainbow', 'ambiguous', 'detailed', 'chances', 'complicated', 'alabaster', 'aardvark', 'simplification', 'disparate', 'unaltered', 'amazed', 'fragile']
+  @@used_words = []
+
+  def self.library
+    @@library
+  end
+
+  def self.used_words
+    @@used_words
+  end
 
   def initialize
     self.get_answer
     self.set_letters
+    @@used_words << self.answer
+    @@library.delete(self.answer)
+    # binding.pry
   end
 
   def get_answer
@@ -39,6 +51,8 @@ class Word
     }
   end
 
+
+
   def guess(guess)
     # receive a guessed letter from user
     # if the guessed letter appears in the @letters array
@@ -56,6 +70,10 @@ class Word
     else
       self.blanks
     end
+  end
+
+  def display_board
+    self.blanks.join(' ')
   end
 
 end
