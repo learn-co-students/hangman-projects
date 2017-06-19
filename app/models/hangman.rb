@@ -5,9 +5,6 @@ class Hangman
   @@player1_name = "92$&?!"
   @@player2_name = "92$&?!"
 
-  @@number_of_limbs = 0
-  @@guessed_letters = []
-
   attr_accessor :players, :number_of_limbs, :dashes, :secret_word, :secret_char_array, :temp_player
 
   attr_reader :letter, :guessed_letters
@@ -17,6 +14,7 @@ class Hangman
     @player1 = Player.new_or_find_by_name(@@player1_name)
     @player2 = Player.new_or_find_by_name(@@player2_name)
     @secret_word = "@#$#%"
+    @guessed_letters = []
   end
 
   def self.welcome
@@ -95,7 +93,8 @@ class Hangman
   def draws_hangman_and_dashes
 
     puts Hangman_Strings.get_strings_arr[@number_of_limbs]
-
+    puts "Already guessed:"
+    p @guessed_letters
     puts @dashes
 
   end
@@ -113,7 +112,12 @@ class Hangman
       elsif @input.chars.size > 1
         puts "Please only enter a single character or  for exit."
         self.get_input
+      elsif @guessed_letters.include?(letter)
+        puts "You already guessed that letter, try again."
+        puts "Already guessed:"
+        p @guessed_letters
       end
+      binding.pry
       ##TODO STORE INPUT IN ARRAY AND DO NOT LET THEM REPEAT CHARACTER!!!
   end
 
@@ -131,6 +135,7 @@ class Hangman
     #sets index equal to the index of the character in secret word
     @secret_char_array.each_with_index do |value, idx|
       if value == input
+        @guessed_letters << input
         index_arr << idx
         @secret_char_array[idx] = "*"
       end
