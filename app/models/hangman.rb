@@ -8,67 +8,6 @@ class Hangman
   @@number_of_limbs = 0
   @@guessed_letters = []
 
-  ##########HANGMAN CLASS #################
-  @@HANGMAN_STRINGS = [
-"    _________
-   |
-   |
-   |
-   |
-   |
-   |
-",
-"    _________
-   |         |
-   |         0
-   |
-   |
-   |
-   |
-",
-"    _________
-   |         |
-   |         0
-   |         |
-   |
-   |
-   |
-",
-"    _________
-   |         |
-   |         0
-   |        /|
-   |
-   |
-   |
-",
-"    _________
-   |         |
-   |         0
-   |        /|\\
-   |
-   |
-   |
-",
-"    _________
-   |         |
-   |         0
-   |        /|\\
-   |        /
-   |
-   |
-",
-"    _________
-   |         |
-   |         0
-   |        /|\\
-   |        / \\
-   |
-   |
-",
-  ]
-
-########## /HANGMAN CLASS ##########
   attr_accessor :players, :number_of_limbs, :dashes, :secret_word, :secret_char_array, :temp_player
 
   attr_reader :letter, :guessed_letters
@@ -155,7 +94,7 @@ class Hangman
 
   def draws_hangman_and_dashes
 
-    puts @@HANGMAN_STRINGS[@number_of_limbs]
+    puts Hangman_Strings.get_strings_arr[@number_of_limbs]
 
     puts @dashes
 
