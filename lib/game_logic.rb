@@ -1,5 +1,7 @@
 require 'pry'
 
+# assuming the word is 'hangman'
+
 def word_to_array(word)
   word_array = word.split("")
 end
@@ -16,6 +18,7 @@ end
 def checker(word_array, guess_array)
   penalty = 0
   miss = []
+  p guess_array(word_to_array('hangman'))
   while penalty < 7
     guess = take_a_guess
     if guess == word_array.join
