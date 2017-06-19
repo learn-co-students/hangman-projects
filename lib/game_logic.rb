@@ -11,6 +11,8 @@ class User
     @wins = 0
     @losses = 0
   end
+
+
   def self.all
     @@all
   end
@@ -84,7 +86,8 @@ def checker(original_word, remaining_letters, user)
     if guess == original_word.join
       user.wins += 1
       p user.name
-      abort("Yay!")
+      puts ("Yay!")
+      new_game_welcome(user)
       #checks to see if the game is won
       # TODO: another elsif to check if the letter has been guessed before
     elsif original_word.include?(guess)
@@ -121,12 +124,19 @@ def displayer(remaining_letters)
   end
 end
 
-def new_game_welcome(user)
+def new_game_welcome(old_user)
   puts "Do you want to play again? Y or N?"
   answer = gets.chomp
   if answer.downcase == "y"
+    blah = Games.new(old_user.name)
     binding.pry
-    new_user = welcome
+    blah.user = old_user
+
+    puts "welcome back #{user.name}"
+    random = random_word
+    a = word_to_display(random)
+    b = remaining_letters_missing(random)
+    checker(a, b, old_user)
     # checker(["a", "n", "d"], [nil,nil,nil], new_user)
     # play game
   else
