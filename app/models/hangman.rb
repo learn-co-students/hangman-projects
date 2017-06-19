@@ -2,33 +2,16 @@ require 'io/console'
 require 'pry'
 class Hangman
 
-  @@player1_name = "92$&?!"
-  @@player2_name = "92$&?!"
-
   attr_accessor :players, :number_of_limbs, :dashes, :secret_word, :secret_char_array, :temp_player
 
   attr_reader :letter, :guessed_letters
 
-  def initialize()
-    ###This is not a good practice...
-    @player1 = Player.new_or_find_by_name(@@player1_name)
-    @player2 = Player.new_or_find_by_name(@@player2_name)
+  def initialize(player1, player2)
+    @player1 = player1
+    @player2 = player2
     @secret_word = "@#$#%"
     @guessed_letters = []
   end
-
-  def self.welcome
-    puts "Welcome to Hangman!!"
-    until self.all_letters(@@player1_name) == true do
-      puts "Please enter Player 1 name."
-      @@player1_name = gets.chomp
-    end
-    until self.all_letters(@@player2_name) == true do
-      puts "Please enter Player 2 name."
-      @@player2_name = gets.chomp
-    end
-  end
-
 
   def self.all_letters(str)
     str[/[a-zA-Z]+/]  == str
@@ -39,7 +22,6 @@ class Hangman
     @player1 = @player2
     @player2 = @temp_player
   end
-
 
   def playgame
 
@@ -68,7 +50,6 @@ class Hangman
     end
     @secret_char_array = @secret_word.chars
     @dashes = Dashes.make_dashes(secret_word)
-    #binding.pry
   end
 
   def draws_hangman_and_dashes
@@ -97,7 +78,7 @@ class Hangman
         puts "Already guessed:"
         p @guessed_letters
       end
-      binding.pry
+      letter
   end
 
   def check_input(input)
@@ -143,13 +124,6 @@ class Hangman
 
   end
 
-  def full_game
-    self.playgame
-    self.switch_players
-    self.playgame
-    self.end_game
-  end
-
   def end_round
     dashes_without_spaces = @dashes.gsub(/\s+/, "")
     if dashes_without_spaces == @secret_word.gsub(/\s+/, "")
@@ -168,20 +142,10 @@ class Hangman
 
     #reset secret word to untrip until statement in get word.
     @secret_word = "#$%@"
+    @guessed_letters = []
+    
     puts "#{@player1.name}'s record is #{@player1.wins} wins and #{@player1.losses} losses"
     puts "#{@player2.name}'s record is #{@player2.wins} wins and #{@player2.losses} losses"
 
   end
-
-  def end_game
-    input = nil
-    until input == "y" || input == "n" do
-      puts "Would you like to play another round? (y/n)"
-      input = gets.chomp.downcase
-      if input == "y"
-        self.full_game
-      end
-    end
-  end
-
 end
