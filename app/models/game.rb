@@ -8,7 +8,8 @@ attr_accessor :bad_guesses
 
   def initialize (player, executioner)
     # Have the Executioner generate the secret word
-    self.executioner.generate_secret_word
+    @player = player
+    @executioner = executioner
     self.bad_guesses = 0
     # Display the hangman and blanks
     # Blanks is a hash of the positions of each letter and what letters have been revealed
@@ -18,7 +19,8 @@ attr_accessor :bad_guesses
 
   def start
     self.executioner.generate_secret_word
-    display_hangman_and_blanks
+    blanks_display = ((" _ ") * self.executioner.secret_word.size).split
+    puts "Here is your word, #{self.player.name}: #{blanks_display.join(" ")}"
     get_player_guess
   end
 
@@ -27,7 +29,7 @@ attr_accessor :bad_guesses
     # Displays the blanks and letters that have been revealed
     # Calls check_game_status
     draw_hangman
-    blanks_display = ((" _ ") * word.size).split
+    blanks_display = ((" _ ") * self.executioner.secret_word.size).split
     puts "Here is your word, #{self.player.name}: #{blanks_display.join(" ")}"
   end
 
@@ -53,13 +55,11 @@ attr_accessor :bad_guesses
     case guess.length
     when 0 then get_player_guess
     when 1 then letter = guess
-    when >1 then word_guess = guess
     else
-      puts "Not a valid entry"
-      get_player_guess
+      word_guess = guess.downcase
     end
 
-    if word_guess.downcase == "quit"
+    if word_guess == "quit"
       end_game(computer)
     end
 

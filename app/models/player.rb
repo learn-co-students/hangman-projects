@@ -5,6 +5,7 @@ class Player
 
   def initialize(name)
     self.games_won_lost = {games_won: 0, games_lost: 0}
+    @name = name
   end
 
 end

@@ -22,7 +22,7 @@ def get_user_input
   response = gets.downcase.chomp
   case response
   when "play" then start_game
-  when "1" then play
+  when "1" then start_game
   when "scores" then show_scores
   when "2" then show_scores
   when "count" then games_played
@@ -48,6 +48,8 @@ def start_game
   current_game = Game.new(player_1, computer)
   current_game.start
 end
+
+
 
 def goodbye
   # Display a goodbye message
