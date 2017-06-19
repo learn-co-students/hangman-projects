@@ -89,7 +89,7 @@ def checker(original_word, remaining_letters, user)
         #split into different method
       end
       displayer(remaining_letters)
-      abort ("Yay!") if remaining_letters == original_word
+      abort ("Yay!") if remaining_letters == original_word && new_game_welcome(user)
     else
       penalty += 1
       p "WRONG #{wrong_letters(miss, guess)}"
