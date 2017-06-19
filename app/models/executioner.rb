@@ -1,11 +1,12 @@
 class Executioner
 
   attr_reader :secret_word
-  attr_accessor :game, :games_won_lost
+  attr_accessor :game, :games_won, :games_lost
 
 
   def initialize
-    self.games_won_lost = {games_won: 0, games_lost: 0}
+    @games_won = 0
+    @games_lost = 0
   end
 
 
@@ -15,13 +16,16 @@ class Executioner
   end
 
   def evaluate_guess(letter)
-    # If the secret word contains the letter, return the positions of that letter in an array with 0 being the first letter
-    # If the guess is incorrect, return an empty array
-
+    if self.secret_word.answer.include?(letter)
+      self.secret_word.correct_guesses << letter.upcase
+      return true
+    else
+      return false
+    end
   end
 
   def evaluate_word_guess(word)
-    # Returns true or false
+    word.upcase == self.secret_word.answer
   end
 
 

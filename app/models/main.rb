@@ -12,9 +12,7 @@ end
 def display_commands
   # Displays all available options (start a new game, see stats, quit)
   puts "1. Play hangman ('play')"
-  puts "2. Show scores for this session ('scores')"
-  puts "3. How many games have we played? ('count')"
-  puts "4. Exit session ('exit')"
+  puts "2. Exit session ('exit')"
 end
 
 def get_user_input
@@ -23,12 +21,8 @@ def get_user_input
   case response
   when "play" then start_game
   when "1" then start_game
-  when "scores" then show_scores
-  when "2" then show_scores
-  when "count" then games_played
-  when "3" then games_played
   when "exit" then goodbye
-  when "4" then goodbye
+  when "2" then goodbye
   else
     puts "Not a valid entry. Please enter one of the commands listed."
     display_commands
