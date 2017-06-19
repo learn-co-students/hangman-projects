@@ -82,11 +82,12 @@ class Hangman
   end
 
   def check_input(input)
-    @secret_char_array.include?(input) ? self.correct_guess(input) : self.incorrect_guess
+    @secret_char_array.include?(input) ? self.correct_guess(input) : self.incorrect_guess(input)
   end
 
-  def incorrect_guess
+  def incorrect_guess(input)
     @number_of_limbs += 1
+    @guessed_letters << input
     self.display_guessed_letters
   end
 
@@ -143,7 +144,7 @@ class Hangman
     #reset secret word to untrip until statement in get word.
     @secret_word = "#$%@"
     @guessed_letters = []
-    
+
     puts "#{@player1.name}'s record is #{@player1.wins} wins and #{@player1.losses} losses"
     puts "#{@player2.name}'s record is #{@player2.wins} wins and #{@player2.losses} losses"
 
