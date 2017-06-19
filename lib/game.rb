@@ -153,20 +153,19 @@ class Game
   # until game.hanged? == true; break if game.won? == true
   def play
     puts "Can you save yourself from the gallows pole?"
-    puts "Please enter your user name, or type 'GAMES: <name>' to access your history:"
+    puts "Please enter your user name, or type 'GAMES' to access your history:"
     user_name = gets.upcase.chomp
-    if user_name.include?("GAMES: ")
-      binding.pry
-      person = user_name.slice(1, 7)
-      User.game_history(person)
-      # self.play_again?
+    if user_name == "GAMES"
+      User.all.each do |user|
+        user.games.each do |game|
+          puts "#{user.name} -- #{game.status}"
+        end
+      end
     else
-    ## OPTION TO ACCESS GAME HISTORY
     User.find_by_name(user_name) ? user = User.find_by_name(user_name) : user = User.new(user_name)
     user.games << self
     self.user = user
     end
-    # binding.pry
     until self.hanged? == true || self.won? == true || self.exit_game == true
       self.gallows
       self.turn
@@ -175,24 +174,21 @@ class Game
       self.gallows
       puts "You've been HANGED!"
       puts "The word was #{self.word}. How did you not guess that?"
-      end_game("lost")
-      # self.status = "lost"
-      # self.save
-      # self.play_again?
+      self.end_game("lost")
     elsif self.won? == true
       self.gallows
       puts "You slipped the noose just in the nick of time!"
-      end_game("won")
+      self.end_game("won")
     elsif self.exit_game == true
       puts "Don't be a quitter. Try again!"
-      end_game("exited")
+      self.end_game("exited")
     end
   end
 
   def end_game(status)
     self.status = status
     self.save
-    if status == "won" or status == "lost"
+    if status == "lost" || status == "won"
       self.play_again?
     end
   end
