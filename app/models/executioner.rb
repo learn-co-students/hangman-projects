@@ -1,16 +1,17 @@
 class Executioner
 
-attr_reader :secret_word
-attr_accessor :game, :games_won_lost
+  attr_reader :secret_word
+  attr_accessor :game, :games_won_lost
 
 
-  def initialize ()
+  def initialize
     self.games_won_lost = {games_won: 0, games_lost: 0}
   end
 
 
   def generate_secret_word
   # Returns and sets the secret word
+  @secret_word = RandomWord.nouns.next.upcase
   end
 
   def evaluate_guess(letter)

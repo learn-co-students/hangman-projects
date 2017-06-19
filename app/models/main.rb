@@ -38,9 +38,15 @@ end
 
 
 def start_game
-  # Create a player
+  # Create a player (get player's name)
   # Create an executioner
   # Create a game and start it
+  print "Enter your name: "
+  name = gets.chomp
+  player_1 = Player.new(name)
+  computer = Executioner.new
+  current_game = Game.new(player_1, computer)
+  current_game.start
 end
 
 def goodbye
