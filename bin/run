@@ -1,9 +1,6 @@
 #!/usr/bin/env ruby
 
 require './lib/game.rb'
-# require './lib/display_board.rb'
-
-
 
 # puts "Can you save yourself from the gallows pole?"
 
