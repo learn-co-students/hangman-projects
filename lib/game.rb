@@ -20,6 +20,7 @@ class Game
     @letter_array.length.times do
       @display_array << "_"
     end
+    # @range = (@letter_array.length - 3..@letter_array.length + 3)
     @incorrect_guesses = []
     @status = "playing game"
     @exit_game = false
@@ -113,7 +114,7 @@ class Game
 
   # compares user_input to alphabet
   def valid_move?(user_input)
-    Dictionary.alphabet.include?(user_input) || user_input == "EXIT"
+    Dictionary.alphabet.include?(user_input) || user_input == "EXIT" || user_input.length == @word.length || user_input == @word
   end
 
   def won?
@@ -129,7 +130,10 @@ class Game
   def turn
     puts "Please enter a letter:"
     user_input = gets.upcase.chomp
-    if !valid_move?(user_input)
+    if !user_input == @word && user_input.length == @word.length
+      puts "TEST"
+      @incorrect_guesses << user_input
+    elsif !valid_move?(user_input)
       turn
     elsif self.incorrect_guesses.include?(user_input)
       puts "You already guessed that, and it's wrong!"
@@ -139,6 +143,8 @@ class Game
       turn
     elsif user_input == "EXIT"
       self.exit_game = true
+    elsif user_input == @word
+      @display_array = @letter_array
     else
       self.correct?(user_input)
     end
