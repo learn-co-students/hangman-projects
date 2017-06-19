@@ -7,6 +7,8 @@ class Hangman
 
   @@number_of_limbs = 0
   @@guessed_letters = []
+
+  ##########HANGMAN CLASS #################
   @@HANGMAN_STRINGS = [
 "    _________
    |
@@ -66,6 +68,7 @@ class Hangman
 ",
   ]
 
+########## /HANGMAN CLASS ##########
   attr_accessor :players, :number_of_limbs, :dashes, :secret_word, :secret_char_array, :temp_player
 
   attr_reader :letter, :guessed_letters
@@ -116,6 +119,9 @@ class Hangman
     self.end_round
   end
 
+
+    #######################DASHES######################################
+
   def get_word
     ##Gets secret_word from Player 1
     ##Sets secret_word equal to Player 1 input
@@ -144,6 +150,9 @@ class Hangman
     puts @dashes
   end
 
+
+###################### /DASHES #########################################
+
   def draws_hangman_and_dashes
 
     puts @@HANGMAN_STRINGS[@number_of_limbs]
@@ -163,9 +172,10 @@ class Hangman
       elsif @input == @secret_word
         @dashes = @secret_word
       elsif @input.chars.size > 1
-        puts "Please only enter a single character or exit for exit."
+        puts "Please only enter a single character or  for exit."
         self.get_input
       end
+      ##TODO STORE INPUT IN ARRAY AND DO NOT LET THEM REPEAT CHARACTER!!!
   end
 
   def check_input(input)
