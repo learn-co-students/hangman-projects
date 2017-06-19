@@ -5,12 +5,14 @@ class Phrase
 # TODO - add logic to this class to hold word list and pop words out of it
 
   attr_accessor :true_string, :display_string, :guessed_letters
+  attr_reader :original_phrase
 
   def make_word_underscores(word)
     word.split("").map {|ch| "_"}
   end
 
   def initialize(phrase="why hello there")
+    @original_phrase = phrase
     @true_string = phrase.split("")
     @display_string = phrase.split("").map { |ch| ch == ' '  ? ' ' : "_" }
     @guessed_letters = []
