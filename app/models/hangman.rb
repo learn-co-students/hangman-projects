@@ -74,6 +74,7 @@ class Hangman
     ###This is not a good practice...
     @player1 = Player.new_or_find_by_name(@@player1_name)
     @player2 = Player.new_or_find_by_name(@@player2_name)
+    @secret_word = "@#$#%"
   end
 
   def self.welcome
@@ -119,10 +120,12 @@ class Hangman
     ##Gets secret_word from Player 1
     ##Sets secret_word equal to Player 1 input
     @number_of_limbs = 0
-    puts "#{@player1.name}, please enter a word containing letters a-z. #{@player2.name} don't look!"
-    #doesn't show input
-    #set secret_word to instance variable so can access in check_input
-    @secret_word = STDIN.noecho(&:gets).chomp
+    until self.class.all_letters(@secret_word.gsub(/\s+/, ""))
+      puts "#{@player1.name}, please enter a word containing letters a-z."
+      #doesn't show input
+      #set secret_word to instance variable so can access in check_input
+      @secret_word = STDIN.noecho(&:gets).chomp
+    end
     @secret_char_array = @secret_word.chars
     self.make_dashes(secret_word)
     #binding.pry
@@ -215,7 +218,6 @@ class Hangman
   end
 
   def end_round
-
     dashes_without_spaces = @dashes.gsub(/\s+/, "")
     if dashes_without_spaces == @secret_word.gsub(/\s+/, "")
       #Player 2 wins
@@ -231,6 +233,8 @@ class Hangman
       @player1.wins += 1
     end
 
+    #reset secret word to untrip until statement in get word.
+    @secret_word = "#$%@"
     puts "#{@player1.name}'s record is #{@player1.wins} wins and #{@player1.losses} losses"
     puts "#{@player2.name}'s record is #{@player2.wins} wins and #{@player2.losses} losses"
 
