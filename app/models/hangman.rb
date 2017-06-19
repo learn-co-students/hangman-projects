@@ -66,7 +66,7 @@ class Hangman
 ",
   ]
 
-  attr_accessor :players, :number_of_limbs, :dashes, :secret_word, :secret_char_array
+  attr_accessor :players, :number_of_limbs, :dashes, :secret_word, :secret_char_array, :temp_player
 
   attr_reader :letter, :guessed_letters
 
@@ -84,6 +84,12 @@ class Hangman
     @@player2_name = gets.chomp
   end
 
+  def switch_players
+    @temp_player = @player1
+    @player1 = @player2
+    @player2 = @temp_player
+  end
+
 
   def playgame
 
@@ -97,14 +103,14 @@ class Hangman
       self.draws_hangman_and_dashes
     end
 
-    self.end_game
+    self.end_round
   end
 
   def get_word
     ##Gets secret_word from Player 1
     ##Sets secret_word equal to Player 1 input
     @number_of_limbs = 0
-    puts "Player 1, please enter a word containing letters a-z. Player 2 don't look!"
+    puts "#{@player1.name}, please enter a word containing letters a-z. #{@player2.name} don't look!"
     #doesn't show input
     #set secret_word to instance variable so can access in check_input
     @secret_word = STDIN.noecho(&:gets).chomp
@@ -120,6 +126,9 @@ class Hangman
     @secret_word.size.times do
     @dashes += "_ "
     end
+    @secret_char_array.each_with_index do |character, idx|
+      @dashes[idx * 2] = " " if character == " "
+    end
     puts @dashes
   end
 
@@ -133,12 +142,17 @@ class Hangman
 
   def get_input
     ##if we have time we'll validate the data so that it is only ever one char a-z (have input shovel to an array and shift first element off??)
-    puts "Please enter a letter."
+    puts "#{@player2.name} Please enter a letter."
     letter = gets.chomp
     @input = letter
       if @input == "exit"
         abort("Bye, Felicia!")
         #love this!
+      elsif @input == @secret_word
+        @dashes = @secret_word
+      elsif @input.chars.size > 1
+        puts "Please only enter a single character or exit for exit."
+        self.get_input
       end
   end
 
@@ -157,7 +171,7 @@ class Hangman
     @secret_char_array.each_with_index do |value, idx|
       if value == input
         index_arr << idx
-        @secret_char_array[idx] = " "
+        @secret_char_array[idx] = "*"
       end
     end
     #multiply by two to account for spaces inbetween the dashes
@@ -176,7 +190,7 @@ class Hangman
 
     dashes_without_spaces = @dashes.gsub(/\s+/, "")
 
-    if dashes_without_spaces == @secret_word || @number_of_limbs > 5
+    if dashes_without_spaces == @secret_word.gsub(/\s+/, "") || @number_of_limbs > 5
       return true
     else
       return false
@@ -184,15 +198,26 @@ class Hangman
 
   end
 
-  def end_game
+  def full_game
+    self.playgame
+    self.switch_players
+    self.playgame
+    self.end_game
+  end
+
+  def end_round
 
     dashes_without_spaces = @dashes.gsub(/\s+/, "")
-    if dashes_without_spaces == @secret_word
+    if dashes_without_spaces == @secret_word.gsub(/\s+/, "")
       #Player 2 wins
+      puts "#{@player2.name} wins!!!"
+      puts "Good guessing!"
       @player1.losses += 1
       @player2.wins += 1
     else
       #Player 1 wins
+      puts "#{@player1.name} wins!!!"
+      puts "The word was #{@secret_word}"
       @player2.losses += 1
       @player1.wins += 1
     end
@@ -200,19 +225,17 @@ class Hangman
     puts "#{@player1.name}'s record is #{@player1.wins} wins and #{@player1.losses} losses"
     puts "#{@player2.name}'s record is #{@player2.wins} wins and #{@player2.losses} losses"
 
+  end
 
+  def end_game
     input = nil
     until input == "y" || input == "n" do
       puts "Would you like to play another round? (y/n)"
-
       input = gets.chomp.downcase
-
       if input == "y"
-        self.playgame
+        self.full_game
       end
-
     end
-
   end
 
 end

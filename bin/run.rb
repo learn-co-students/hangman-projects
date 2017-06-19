@@ -8,7 +8,8 @@ Hangman.welcome
 
 game = Hangman.new
 
-game.playgame
+game.full_game
+
 
 ##Store data once game is over
 Player.make_json
