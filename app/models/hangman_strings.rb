@@ -1,8 +1,7 @@
 class Hangman_Strings
-  attr_reader :hangman_strings
 
   def self.get_strings_arr
-    @@HANGMAN_STRINGS = [
+  [
   "    _________
      |
      |
