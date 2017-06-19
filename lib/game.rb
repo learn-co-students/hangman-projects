@@ -1,5 +1,8 @@
 require 'pry-byebug'
 require_relative 'dictionary.rb'
+require_relative 'display'
+require_relative 'user.rb'
+require_relative 'turn.rb'
 
 class Game
 
@@ -7,9 +10,8 @@ class Game
 
   # display_array defined for testing purposes
   # display_array = ["_", "_", "_", "_", "_" ]
-
-  attr_accessor :display_array, :exit_game, :status
-  attr_reader :user_input, :incorrect_guesses, :word
+  attr_accessor :display_array, :exit_game, :status, :user, :outcome
+  attr_reader :user_input, :incorrect_guesses, :word, :letter_array, :display
 
   #Should this take user_input on initialize?
   def initialize
@@ -23,6 +25,8 @@ class Game
     @incorrect_guesses = []
     @status = "playing game"
     @exit_game = false
+    @users = nil
+
   end
 
   ## Shovel user_input into one of two arrays:
@@ -149,6 +153,20 @@ class Game
   # until game.hanged? == true; break if game.won? == true
   def play
     puts "Can you save yourself from the gallows pole?"
+    puts "Please enter your user name, or type 'GAMES: <name>' to access your history:"
+    user_name = gets.upcase.chomp
+    if user_name.include?("GAMES: ")
+      binding.pry
+      person = user_name.slice(1, 7)
+      User.game_history(person)
+      # self.play_again?
+    else
+    ## OPTION TO ACCESS GAME HISTORY
+    User.find_by_name(user_name) ? user = User.find_by_name(user_name) : user = User.new(user_name)
+    user.games << self
+    self.user = user
+    end
+    # binding.pry
     until self.hanged? == true || self.won? == true || self.exit_game == true
       self.gallows
       self.turn
@@ -174,7 +192,7 @@ class Game
   def end_game(status)
     self.status = status
     self.save
-    if !status="exited"
+    if status == "won" or status == "lost"
       self.play_again?
     end
   end

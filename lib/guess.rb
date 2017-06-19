@@ -7,8 +7,6 @@ require_relative 'turn.rb'
 
 class Guess
 
-
-
   def initialize(user_input)
     @user_input = user_input
   end
