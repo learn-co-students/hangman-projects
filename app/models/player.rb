@@ -5,7 +5,7 @@ class Player
 
   @@all = []
 
-  def initialize(name="player", wins = 0, losses = 0)
+  def initialize(name=nil, wins = 0, losses = 0)
     @name = name
     @wins = wins
     @losses = losses

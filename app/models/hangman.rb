@@ -152,18 +152,28 @@ class Hangman
   end
 
   def correct_guess(input)
-    index = nil
+    # index = nil
+    # #sets index equal to the index of the character in secret word
+    # @secret_char_array.each_with_index do |value, idx|
+    #   if value == input
+    #     index = idx
+    #     @secret_char_array[index] = " "
+    #     break
+    #   end
+    # end
+    index_arr = []
     #sets index equal to the index of the character in secret word
     @secret_char_array.each_with_index do |value, idx|
       if value == input
-        index = idx
-        @secret_char_array[index] = " "
-        break
+        index_arr << idx
+        @secret_char_array[idx] = " "
       end
     end
     #multiply by two to account for spaces inbetween the dashes
-    index *= 2
-    @dashes[index]= input
+    index_arr.each do |index|
+      index *= 2
+      @dashes[index]= input
+    end
     self.display_guessed_letters
   end
 
