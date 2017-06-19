@@ -98,8 +98,11 @@ class Word
   end
 
   def get_hint
-    self.get_synonyms
-    self.synonyms[0]
+    max = self.synonyms.size
+    num = rand(0..(max-1))
+    binding.pry
+    hint = self.synonyms[num]
+    self.synonyms.delete(hint)
   end
 
 end
