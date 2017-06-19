@@ -12,9 +12,9 @@ class User
 
   def initialize(name)
     @name = name
-    @@all << self
     @id = @@all.length
     @games = []
+    @@all << self
   end
 
   def self.all
@@ -27,6 +27,13 @@ class User
 
   def self.find_by_id(id)
     self.all[id - 1]
+  end
+
+  def self.game_history(name)
+    user = User.find_by_name(name)
+    user.games.each_with_index do |game, idx|
+      puts "#{idx}. #{game.status.upcase}"
+    end
   end
 
 end

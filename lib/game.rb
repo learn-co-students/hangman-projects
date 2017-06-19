@@ -8,7 +8,7 @@ class Game
 
   @@all = []
 
-  attr_accessor :display_array, :exit_game, :status, :users, :outcome
+  attr_accessor :display_array, :exit_game, :status, :user, :outcome
   attr_reader :user_input, :incorrect_guesses, :word, :letter_array, :display
 
   def initialize
@@ -17,7 +17,7 @@ class Game
     # @incorrect_guesses = []
     @status = "playing game"
     @exit_game = false
-    @users = []
+    @users = nil
   end
 
   # def guesses
@@ -36,10 +36,20 @@ class Game
   # until game.hanged? == true; break if game.won? == true
   def play
     puts "Can you save yourself from the gallows pole?"
-    puts "Please enter your user name:"
+    puts "Please enter your user name, or type 'GAMES: <name>' to access your history:"
     user_name = gets.upcase.chomp
+    if user_name.include?("GAMES: ")
+      binding.pry
+      person = user_name.slice(1, 7)
+      User.game_history(person)
+      # self.play_again?
+    else
+    ## OPTION TO ACCESS GAME HISTORY
     User.find_by_name(user_name) ? user = User.find_by_name(user_name) : user = User.new(user_name)
     user.games << self
+    self.user = user
+    end
+    # binding.pry
     until self.hanged? == true || self.won? == true || self.exit_game == true
       display.gallows
       turn = Turn.new(self.word, display, self)
