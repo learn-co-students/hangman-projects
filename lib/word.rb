@@ -7,6 +7,7 @@ require 'unirest'
 
 class Word
   attr_reader :answer, :letters, :synonyms
+  attr_accessor :guesses
 
   @@library = ['bear', 'rabbit', 'rainbow', 'ambiguous', 'detailed', 'chances', 'complicated', 'alabaster', 'aardvark', 'simplification', 'disparate', 'unaltered', 'amazed', 'fragile', 'daytime', 'dynasty', 'basic', 'civilization', 'deadly']
   @@used_words = []
@@ -23,6 +24,7 @@ class Word
     self.get_answer
     self.set_letters
     self.get_synonyms
+    self.guesses = []
     @@used_words << self.answer
     @@library.delete(self.answer)
     # binding.pry
@@ -53,8 +55,6 @@ class Word
     }
   end
 
-
-
   def guess(guess)
     # receive a guessed letter from user
     # if the guessed letter appears in the @letters array
@@ -67,9 +67,13 @@ class Word
           letter.visible = true
         end
       }
+      turn = {character: guess, valid: true}
+      self.guesses << turn
       self.blanks
         # binding.pry
     else
+      turn = {character: guess, valid: false}
+      self.guesses << turn
       self.blanks
     end
   end
@@ -78,7 +82,7 @@ class Word
     self.blanks.join(' ')
   end
 
-  def get_synonyms(word)
+  def get_synonyms
     word = self.answer
     response = Unirest.get "https://wordsapiv1.p.mashape.com/words/#{word}/synonyms",
     headers:{
@@ -89,7 +93,7 @@ class Word
     @synonyms = response.body["synonyms"]
   end
 
-  def get_hint(word)
+  def get_hint
     self.synonyms[0]
   end
 
