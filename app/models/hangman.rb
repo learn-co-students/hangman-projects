@@ -56,9 +56,6 @@ class Hangman
     self.end_round
   end
 
-
-    #######################DASHES######################################
-
   def get_word
     ##Gets secret_word from Player 1
     ##Sets secret_word equal to Player 1 input
@@ -70,25 +67,9 @@ class Hangman
       @secret_word = STDIN.noecho(&:gets).chomp
     end
     @secret_char_array = @secret_word.chars
-    self.make_dashes(secret_word)
+    @dashes = Dashes.make_dashes(secret_word)
     #binding.pry
   end
-
-  def make_dashes(secret_word)
-    #draws dashes
-    #sets secret_word equal to @@dashes
-    @dashes = ""
-    @secret_word.size.times do
-    @dashes += "_ "
-    end
-    @secret_char_array.each_with_index do |character, idx|
-      @dashes[idx * 2] = " " if character == " "
-    end
-    puts @dashes
-  end
-
-
-###################### /DASHES ####################################s#####
 
   def draws_hangman_and_dashes
 
