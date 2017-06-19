@@ -11,7 +11,7 @@ class Executioner
 
   def generate_secret_word
   # Returns and sets the secret word
-  @secret_word = RandomWord.nouns.next.upcase
+    @secret_word = SecretWord.new
   end
 
   def evaluate_guess(letter)

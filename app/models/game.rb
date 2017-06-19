@@ -2,7 +2,7 @@ require 'pry'
 class Game
 
 attr_reader :whose_turn, :player, :executioner, :blanks
-attr_accessor :bad_guesses
+attr_accessor :bad_guesses, :gallows
 
 
 
@@ -18,27 +18,23 @@ attr_accessor :bad_guesses
   end
 
   def start
+    self.gallows = Gallows.new
     self.executioner.generate_secret_word
-    blanks_display = ((" _ ") * self.executioner.secret_word.size).split
+    blanks_display = ((" _ ") * self.executioner.secret_word.answer.size).split
     puts "Here is your word, #{self.player.name}: #{blanks_display.join(" ")}"
     get_player_guess
+    binding.pry
   end
 
   def display_hangman_and_blanks
     # Draws hangman picture
     # Displays the blanks and letters that have been revealed
     # Calls check_game_status
-    draw_hangman
+    self.gallows.draw(self.bad_guesses)
     blanks_display = ((" _ ") * self.executioner.secret_word.size).split
     puts "Here is your word, #{self.player.name}: #{blanks_display.join(" ")}"
   end
 
-  def draw_hangman
-    # Draws the appropriate hangman picture using our game instance variable bad_guesses
-    my_ascii_pic = File.read("app/hangman_picture_#{self.bad_guesses}.txt")
-    system "clear"
-    puts my_ascii_pic
-  end
 
   def check_game_status
     # Checks to see if all blanks are revealed: If so, the player wins;  Call end_game

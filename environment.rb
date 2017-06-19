@@ -1,5 +1,5 @@
 require 'bundler'
-require 'pry'
+require 'pry-byebug'
 require 'require_all'
 require 'sqlite3'
 require 'random-word'
