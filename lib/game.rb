@@ -1,43 +1,28 @@
 require 'pry-byebug'
+require_relative 'dictionary.rb'
 
 class Game
 
-## WORDS should probably go in a separate dictionary.rb files
-
-  def words
-    words = [
-      "SURPRISE",
-      "BLANK",
-      "GEMSTONE",
-      "BASS",
-      "CHICKEN",
-      "COMPUTER",
-      "RUBY",
-      "PYTHON",
-      "SPHYNX"
-    ]
-  end
-
-  def alphabet
-    alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-  end
+  @@all = []
 
   # display_array defined for testing purposes
   # display_array = ["_", "_", "_", "_", "_" ]
 
-  attr_accessor :display_array
+  attr_accessor :display_array, :exit_game, :status
   attr_reader :user_input, :incorrect_guesses, :word
 
   #Should this take user_input on initialize?
   def initialize
     # @user_input = user_input
-    @word = words.sample
+    @word = Dictionary.words.sample
     @display_array = []
     @letter_array = @word.split("")
     @letter_array.length.times do
       @display_array << "_"
     end
     @incorrect_guesses = []
+    @status = "playing game"
+    @exit_game = false
   end
 
   ## Shovel user_input into one of two arrays:
@@ -85,7 +70,7 @@ class Game
     gal_four_all = "\\|/        |"
     gal_five_body = " |         |"
     gal_six_one = "  \\        |"
-    gal_six_two = " /\\        |"
+    gal_six_two = "/ \\        |"
     # Start new logic
     puts gal_one
     puts gal_two
@@ -128,7 +113,7 @@ class Game
 
   # compares user_input to alphabet
   def valid_move?(user_input)
-    alphabet.include?(user_input)
+    Dictionary.alphabet.include?(user_input) || user_input == "EXIT"
   end
 
   def won?
@@ -152,6 +137,8 @@ class Game
     elsif self.display_array.include?(user_input)
       puts "That's already on the board..."
       turn
+    elsif user_input == "EXIT"
+      self.exit_game = true
     else
       self.correct?(user_input)
     end
@@ -160,7 +147,8 @@ class Game
   # play provides flow for the whole game
   # until game.hanged? == true; break if game.won? == true
   def play
-    until self.hanged? == true || self.won? == true
+    puts "Can you save yourself from the gallows pole?"
+    until self.hanged? == true || self.won? == true || self.exit_game == true
       self.gallows
       self.turn
     end
@@ -168,9 +156,19 @@ class Game
       self.gallows
       puts "You've been HANGED!"
       puts "The word was #{self.word}. How did you not guess that?"
+      self.status = "lost"
+      self.save
+      self.play_again?
     elsif self.won? == true
       self.gallows
       puts "You slipped the noose just in the nick of time!"
+      self.status = "won"
+      self.save
+      self.play_again?
+    elsif self.exit_game == true
+      puts "Don't be a quitter. Try again!"
+      self.status = "exited"
+      self.save
     # if !self.hanged? == true
     #   self.gallows
     #   self.turn
@@ -180,6 +178,21 @@ class Game
     # elsif self.won? == true
     #   self.gallows
     #   puts "You slipped the noose just in the nick of time!"
+    end
+  end
+
+  def save
+    @@all << self
+  end
+
+  def play_again?
+    puts "Would you like to play again? (Y / N):"
+    user_input = gets.chomp().upcase
+    if user_input == "Y"
+      new_game = Game.new
+      new_game.play
+    else
+      puts "Game over."
     end
   end
 

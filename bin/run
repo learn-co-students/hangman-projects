@@ -12,5 +12,4 @@ require './lib/game.rb'
 # Below is all that should be necessary as presently set up:
 
 game = Game.new
-puts "Can you save yourself from the gallows pole?"
 game.play
