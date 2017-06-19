@@ -103,13 +103,12 @@ class Hangman
     ##if we have time we'll validate the data so that it is only ever one char a-z (have input shovel to an array and shift first element off??)
     puts "#{@player2.name} Please enter a letter."
     letter = gets.chomp
-    @input = letter
-      if @input == "exit"
+      if letter == "exit"
         abort("Bye, Felicia!")
         #love this!
-      elsif @input == @secret_word
+      elsif letter == @secret_word
         @dashes = @secret_word
-      elsif @input.chars.size > 1
+      elsif letter.chars.size > 1
         puts "Please only enter a single character or  for exit."
         self.get_input
       elsif @guessed_letters.include?(letter)
@@ -118,11 +117,10 @@ class Hangman
         p @guessed_letters
       end
       binding.pry
-      ##TODO STORE INPUT IN ARRAY AND DO NOT LET THEM REPEAT CHARACTER!!!
   end
 
   def check_input(input)
-    @secret_char_array.include?(@input) ? self.correct_guess(@input) : self.incorrect_guess
+    @secret_char_array.include?(input) ? self.correct_guess(input) : self.incorrect_guess
   end
 
   def incorrect_guess
