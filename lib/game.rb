@@ -72,6 +72,7 @@ def start_game(player_name)
   player = Player.find_or_create(player_name)
   word = Word.new
   check_letters = false
+  last_letter = ""
   hang_man = 0
   forfeit = false
   hint = ""
@@ -94,7 +95,11 @@ def start_game(player_name)
       # !!! pass guess to word instance
       word.guess(letter)
       # !!! if bad guess then hang_man += 1
-      hang_man += 1 if word.guesses.last[:valid] == false
+      if word.guesses.detect { |guess| guess[:character] == letter} != nil
+        puts "You've already tried that, please try again"
+      elsif word.guesses.last[:valid] == false
+        hang_man += 1
+      end
       # !!! if all letters are guess && hang_man < 6 then game is won
       check_letters = word.letters.all? {|letter| letter.visible == true}
       if hang_man < 6 && check_letters
