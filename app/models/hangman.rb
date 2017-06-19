@@ -152,15 +152,6 @@ class Hangman
   end
 
   def correct_guess(input)
-    # index = nil
-    # #sets index equal to the index of the character in secret word
-    # @secret_char_array.each_with_index do |value, idx|
-    #   if value == input
-    #     index = idx
-    #     @secret_char_array[index] = " "
-    #     break
-    #   end
-    # end
     index_arr = []
     #sets index equal to the index of the character in secret word
     @secret_char_array.each_with_index do |value, idx|
