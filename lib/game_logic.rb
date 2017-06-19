@@ -53,6 +53,10 @@ end
 
 def word_to_display(random_word)
   random_word.split("")
+
+
+def word_to_array(word)
+  word_array = word.split("")
 end
 
 def remaining_letters_missing(random_word)
@@ -76,6 +80,7 @@ end
 def checker(original_word, remaining_letters, user)
   penalty = 0
   miss = []
+  p guess_array(word_to_array('hangman'))
   while penalty < 7
     guess = take_a_guess
     if guess == original_word.join
