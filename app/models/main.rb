@@ -1,20 +1,38 @@
 def load_good
 puts "game loaded successfully!"
-pry.start
+# pry.start
 end
 
 def greeting
   # Displays a greeting on the screen
+  puts "Welcome! Let's get started: "
 end
 
 
 def display_commands
   # Displays all available options (start a new game, see stats, quit)
-
+  puts "1. Play hangman ('play')"
+  puts "2. Show scores for this session ('scores')"
+  puts "3. How many games have we played? ('count')"
+  puts "4. Exit session ('exit')"
 end
 
 def get_user_input
   # Uses gets to wait for a command
+  response = gets.downcase.chomp
+  case response
+  when "play" then start_game
+  when "1" then play
+  when "scores" then show_scores
+  when "2" then show_scores
+  when "count" then games_played
+  when "3" then games_played
+  when "exit" then goodbye
+  when "4" then goodbye
+  else
+    puts "Not a valid entry. Please enter one of the commands listed."
+    display_commands
+  end
 end
 
 
@@ -27,6 +45,7 @@ end
 
 def goodbye
   # Display a goodbye message
+  puts "Bye!  Have a great day!"
 end
 
 def draw_hangman (num)

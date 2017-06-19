@@ -1,10 +1,10 @@
 class Executioner
 
 attr_reader :secret_word
-attr_accessor :player, :game, :games_won_lost
+attr_accessor :game, :games_won_lost
 
 
-  def initialize(player, game)
+  def initialize ()
     self.games_won_lost = {games_won: 0, games_lost: 0}
   end
 
