@@ -2,8 +2,8 @@ require 'io/console'
 require 'pry'
 class Hangman
 
-  @@player1_name = nil
-  @@player2_name = nil
+  @@player1_name = "92$&?!"
+  @@player2_name = "92$&?!"
 
   @@number_of_limbs = 0
   @@guessed_letters = []
@@ -78,10 +78,19 @@ class Hangman
 
   def self.welcome
     puts "Welcome to Hangman!!"
-    puts "Please enter Player 1 name."
-    @@player1_name = gets.chomp
-    puts "Please enter Player 2 name."
-    @@player2_name = gets.chomp
+    until self.all_letters(@@player1_name) == true do
+      puts "Please enter Player 1 name."
+      @@player1_name = gets.chomp
+    end
+    until self.all_letters(@@player2_name) == true do
+      puts "Please enter Player 2 name."
+      @@player2_name = gets.chomp
+    end
+  end
+
+
+  def self.all_letters(str)
+    str[/[a-zA-Z]+/]  == str
   end
 
   def switch_players
