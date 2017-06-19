@@ -48,6 +48,33 @@ attr_accessor :bad_guesses
     # If player guesses a letter, send the guess to Executioner (evaluate_guess)
     # Update the board with any revealed letters (update_blanks)
     # If player guesses the word, send the guess to Executioner (evaluate_word_guess)
+    puts "Enter your guess (letter or word), or 'quit' to quit: "
+    guess = gets.chomp.upcase
+    case guess.length
+    when 0 then get_player_guess
+    when 1 then letter = guess
+    when >1 then word_guess = guess
+    else
+      puts "Not a valid entry"
+      get_player_guess
+    end
+
+    if word_guess.downcase == "quit"
+      end_game(computer)
+    end
+
+
+
+    if word_guess != nil
+      if computer.evaluate_word_guess(word_guess) == true
+      end_game(player_1)
+      else
+        puts "Incorrect."
+        bad_guesses += 1
+      end
+    end
+
+
 
   end
 
