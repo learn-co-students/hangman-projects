@@ -2,7 +2,7 @@
 require_relative '../config/environment.rb'
 
 ## Read data on players
-Player.read_existing_players
+JSON_Handler.read_existing_players
 
 Hangman.welcome
 
@@ -12,4 +12,4 @@ game.full_game
 
 
 ##Store data once game is over
-Player.make_json
+JSON_Handler.make_json
