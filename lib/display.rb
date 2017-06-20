@@ -3,6 +3,7 @@ require_relative 'dictionary.rb'
 require_relative 'display.rb'
 require_relative 'user.rb'
 require_relative 'turn.rb'
+require 'colorize'
 
 class Display
 
@@ -20,55 +21,82 @@ class Display
   end
 
   def gallows
-    gal_one = " __________"
-    gal_two = " |         |"
-    gal_three = "           |"
-    gal_four = "           |"
-    gal_five = "           |"
-    gal_six = "           |"
-    gal_seven = "____________"
-    gal_three_head = " O         |"
-    gal_four_one = " |         |"
-    gal_four_two = "\\|         |"
-    gal_four_all = "\\|/        |"
-    gal_five_body = " |         |"
-    gal_six_one = "  \\        |"
-    gal_six_two = "/ \\        |"
-    puts gal_one
-    puts gal_two
-    # Line 3
-    ##self.guesses > 0 ? puts gal_three_head : puts gal_three
-    if self.guesses.length > 0
-      puts gal_three_head
-    else
+    gal_one = " __________".colorize(:green)
+    gal_two = " |".colorize(:red) + "         |".colorize(:green)
+    gal_three = "           |".colorize(:green)
+    gal_four = "           |".colorize(:green)
+    gal_five = "           |".colorize(:green)
+    gal_six = "           |".colorize(:green)
+    gal_seven = "____________".colorize(:green)
+    gal_three_head = " O" + "         |".colorize(:green)
+    gal_three_head_final = " X" + "         |".colorize(:green)
+    gal_four_one = " |" + "         |".colorize(:green)
+    gal_four_two = "\\|" + "         |".colorize(:green)
+    gal_four_all = "\\|/" + "        |".colorize(:green)
+    gal_four_final = "/\|\\" + "        |".colorize(:green)
+    gal_five_body = " |" + "         |".colorize(:green)
+    gal_six_one = "  \\"+ "        |".colorize(:green)
+    gal_six_two = "/ \\"+ "        |".colorize(:green)
+    gal_six_final = "| \|"+ "        |".colorize(:green)
+
+    case self.guesses.length
+    when 0
+      puts gal_one
+      puts gal_two
       puts gal_three
-    end
-    # Line 4
-    if self.guesses.length < 2
       puts gal_four
-    elsif self.guesses.length == 2
-      puts gal_four_one
-    elsif self.guesses.length == 3
-      puts gal_four_two
-    elsif self.guesses.length >= 4
-      puts gal_four_all
-    end
-    # Line 5
-    ##self.guesses >= 5 ? puts gal_five_body : puts gal_five
-    if self.guesses.length >= 5
-      puts gal_five_body
-    elsif self.guesses.length < 5
       puts gal_five
-    end
-    # Line 6
-    if self.guesses.length <= 5
       puts gal_six
-    elsif self.guesses.length == 6
+    when 1
+      puts gal_one
+      puts gal_two
+      puts gal_three_head
+      puts gal_four
+      puts gal_five
+      puts gal_six
+    when 2
+      puts gal_one
+      puts gal_two
+      puts gal_three_head
+      puts gal_four_one
+      puts gal_five
+      puts gal_six
+    when 3
+      puts gal_one
+      puts gal_two
+      puts gal_three_head
+      puts gal_four_two
+      puts gal_five
+      puts gal_six
+    when 4
+      puts gal_one
+      puts gal_two
+      puts gal_three_head
+      puts gal_four_all
+      puts gal_five
+      puts gal_six
+    when 5
+      puts gal_one
+      puts gal_two
+      puts gal_three_head
+      puts gal_four_all
+      puts gal_five_body
+      puts gal_six
+    when 6
+      puts gal_one
+      puts gal_two
+      puts gal_three_head
+      puts gal_four_all
+      puts gal_five_body
       puts gal_six_one
-    elsif self.guesses.length == 7
-      puts gal_six_two
+    when 7
+      puts gal_one
+      puts gal_two
+      puts gal_three_head_final
+      puts gal_four_final
+      puts gal_five_body
+      puts gal_six_final
     end
-    # Line 7 (bottom)
     puts gal_seven
     puts self.display_array.join(" ")
   end

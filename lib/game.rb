@@ -12,17 +12,29 @@ class Game
   attr_reader :user_input, :incorrect_guesses, :word, :letter_array, :display
 
   def initialize
+<<<<<<< HEAD
     @word = Dictionary.words ## New dictionary doesn't use sample here
     # @word = Dictionary.words.sample
     @display = Display.new(@word)
+=======
+    @word = Dictionary.words.sample
+    @display = Display.new(@word)
+    # @incorrect_guesses = []
+>>>>>>> alex
     @status = "playing game"
     @exit_game = false
     @users = []
   end
 
+<<<<<<< HEAD
   def self.all
     @@all
   end
+=======
+  # def guesses
+  #   guesses = display.guesses.length
+  # end
+>>>>>>> alex
 
   def won?
     display.display_array == display.letter_array ? true : false

@@ -55,6 +55,7 @@ class Turn
 
 end
 
+<<<<<<< HEAD
   def valid_move?
     if Dictionary.alphabet.include?(self.user_input) || self.user_input == "EXIT" || self.user_input.length == self.word.length || self.user_input == self.word
       true
@@ -66,3 +67,14 @@ end
       ## TURN
     end
   end
+=======
+def valid_move?
+  if Dictionary.alphabet.include?(self.user_input) || self.user_input == "EXIT" || self.user_input.length == self.word.length || self.user_input == self.word
+    true
+  elsif display.guesses.include?(user_input)
+    puts "You already guessed that, and it's wrong!"
+  elsif display.display_array.include?(user_input)
+    puts "That's already on the board..."
+  end
+end
+>>>>>>> alex
