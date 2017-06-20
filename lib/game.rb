@@ -8,8 +8,8 @@ class Game
 
   @@all = []
 
-  attr_accessor :display_array, :exit_game, :status, :users, :outcome, :user
-  attr_reader :user_input, :incorrect_guesses, :word, :letter_array, :display
+  attr_accessor :display_array, :exit_game, :status, :users, :outcome, :user, :user_input
+  attr_reader :incorrect_guesses, :word, :letter_array, :display
 
   def initialize
     @word = Dictionary.words ## New dictionary doesn't use sample here
@@ -19,11 +19,9 @@ class Game
     @users = []
   end
 
-
   def self.all
     @@all
   end
-
 
   def won?
     display.display_array == display.letter_array ? true : false
@@ -37,42 +35,63 @@ class Game
   def play
     puts "Can you save yourself from the gallows pole?"
     puts "Please enter your user name, or type 'GAMES' to view your history:"
-    user_name = gets.upcase.chomp
-    if user_name == "GAMES"
-      User.all.each do |user|
-        user.games.each do |game|
-          puts "#{user.name} -- #{game.status}"
-        end
-      end
-      self.play_again?
+    self.user_input = gets.upcase.chomp
+    if self.user_input == "GAMES"
+      self.print_history
     else
-      User.find_by_name(user_name) ? user = User.find_by_name(user_name) : user = User.new(user_name)
-      user.games << self
-      self.user = user
+      self.find_or_create_user(self.user_input)
     end
     until self.hanged? == true || self.won? == true || self.exit_game == true
       display.gallows
       turn = Turn.new(self.word, display, self)
     end
     if self.hanged? == true
-      display.gallows
-      puts "You've been HANGED!"
-      puts "The word was #{self.word.upcase}. How did you not guess that?"
-      self.status = "lost"
-      self.save
-      self.play_again?
+      self.hanged
     elsif self.won? == true
-      display.gallows
-      puts "You slipped the noose just in the nick of time!"
-      self.status = "won"
-      self.save
-      self.play_again?
+      self.won
     elsif self.exit_game == true
-      puts "Don't be a quitter. Try again!"
-      self.status = "exited"
-      self.save
-      abort # If user presses "enter" for user_name and then types exit, it returns the board again. Typing exit after that should exit, but hopefully this #abort fixes the issue
+      self.quit
     end
+  end
+
+  def hanged
+    display.gallows
+    puts "You've been HANGED!"
+    puts "The word was #{self.word.upcase}. How did you not guess that?"
+    self.status = "lost"
+    self.save
+    self.play_again?
+  end
+
+  def won
+    display.gallows
+    puts "You slipped the noose just in the nick of time!"
+    self.status = "won"
+    self.save
+    self.play_again?
+  end
+
+  def quit
+    puts "Don't be a quitter. Try again!"
+    self.status = "exited"
+    self.save
+    abort # If user presses "enter" for user_name and then types exit, it returns the board again. Typing exit after that should exit, but hopefully this #abort fixes the issue
+  end
+
+
+  def find_or_create_user(user_input)
+    User.find_by_name(user_input) ? user = User.find_by_name(user_input) : user = User.new(user_input)
+    user.games << self
+    self.user = user
+  end
+
+  def print_history
+    User.all.each do |user|
+      user.games.each do |game|
+        puts "#{user.name} -- #{game.status}"
+      end
+    end
+    self.play_again?
   end
 
   def save
