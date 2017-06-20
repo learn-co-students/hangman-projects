@@ -21,7 +21,6 @@ class Turn
     elsif !self.user_input == self.word && self.user_input.length == self.word.length
       display.guesses << self.user_input
     elsif !valid_move?
-      # (self.user_input)
       turn = Turn.new(self.word, self.display, self.game)
     elsif display.guesses.include?(self.user_input)
       puts "You already guessed that, and it's wrong!"
@@ -36,22 +35,34 @@ class Turn
     end
   end
 
-
   def correct?(user_input)
-    display.letter_array.each_with_object(display.display_array) do |letter, blank|
-      if display.letter_array.include?(user_input)
-        display.letter_array.each_with_index do |let, idx|
-          if let == self.user_input
-            display.display_array[idx] = let
-          end
+    if display.letter_array.include?(user_input)
+      display.letter_array.each_with_index do |let, idx|
+        if let == self.user_input
+          display.display_array[idx] = let
         end
       end
-    end
-    if !display.letter_array.include?(self.user_input)
+    else
       display.guesses << self.user_input
     end
   end
-  end
+
+
+  # def correct?(user_input)
+  #   display.letter_array.each_with_object(display.display_array) do |letter, blank|
+  #     if display.letter_array.include?(user_input)
+  #       display.letter_array.each_with_index do |let, idx|
+  #         if let == self.user_input
+  #           display.display_array[idx] = let
+  #         end
+  #       end
+  #     end
+  #   end
+  #   if !display.letter_array.include?(self.user_input)
+  #     display.guesses << self.user_input
+  #   end
+  # end
+  # end
 
   def valid_move?
     if Dictionary.alphabet.include?(self.user_input) || self.user_input == "EXIT" || self.user_input.length == self.word.length || self.user_input == self.word

@@ -25,10 +25,6 @@ class User
     self.all.find{|user| user.name == user}
   end
 
-  def self.find_by_id(id)
-    self.all[id - 1]
-  end
-
   def self.win_ratio
       total_arr = User.all.each do |user|
         user.games.each_with_object([]){|game, arr| arr << game}
