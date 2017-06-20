@@ -68,6 +68,9 @@ class Game
       if input == "y"
         self.single_or_multi
       end
+      if input == "n"
+        abort
+      end
     end
   end
 end
