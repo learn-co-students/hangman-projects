@@ -1,23 +1,10 @@
-require 'pry'
-require_relative './phrase.rb'
-require_relative './gallows.rb'
-require_relative './user.rb'
-require_relative './display.rb'
-
-# TODO menu method or class -- main menu
-#      partial exit so user can Play
-#      store scores to file
-#      word array
-#      to-do's from partners
-#      fix file structure
-
 class Hangman
-  attr_reader :phrase, :counter
-  attr_accessor :user_input, :session
+  attr_reader :phrase
+  attr_accessor :session, :counter
 
-  def initialize
+  def initialize(difficulty=:easy)
     @counter = 0
-    @phrase = Phrase.new
+    @phrase = Phrase.new(difficulty)
   end
 
   def user
@@ -28,76 +15,71 @@ class Hangman
     self.session.display
   end
 
-  def check_word
-    if @user_input == self.phrase.true_vals.join("").downcase
-      self.phrase.display_vals = self.phrase.true_vals
-      @game_won = true
-    else
-      @counter = 6
-    end
+  def user_input
+    self.session.user_input
   end
 
-  def game_over?
-    @counter == 6 || @phrase.display_vals == @phrase.true_vals
-  end
-
-  def game_won?
-    if @phrase.display_vals == @phrase.true_vals
-      return true
-    elsif @counter == 6
-      return false
-    end
-  end
-
-  def get_matching_locations(char)
-    return "already guessed" if self.phrase.guessed_letters.include?(char)
-    self.phrase.true_vals.each_with_object([]).with_index do |(curr_ch, acc), idx|
-      if curr_ch.downcase == char &&
-        acc << idx
-      end
-    end
+  def get_user_input
+    self.user_input.value = gets.chomp.downcase
   end
 
   def check_letter
-    matching_locations = get_matching_locations(@user_input)
-    # binding.pry
-    if matching_locations == "already guessed"
-      puts "You've already guessed #{@user_input}. Guess again."
-    elsif !matching_locations.empty?
-      @phrase.update_display_vals(matching_locations)
+    if self.user_input.matches_single_char?
+      self.phrase.update_display_vals(self.user_input.find_match_indexes)
     else
-      # NOTE: put into phrase class, sanatize input
-      @phrase.guessed_letters << @user_input
-      @counter += 1
-      puts "You Guessed Wrong"
+      self.phrase.guessed_letters << self.user_input.value
+      self.counter += 1
+      self.display.wrong_guess_message
     end
   end
 
-  def play_game
+  def second_chance
+    new_value = self.user_input.value.split("")[0]
+    display.second_chance_prompt(new_value)
+    if gets.chomp.downcase == "y"
+      self.user_input.value = new_value
+        self.check_letter
+        display.word_and_gallows
+    else
+      check_word
+    end
+  end
 
+  def check_word
+    self.phrase.display_vals = self.phrase.true_vals if self.user_input.matches_phrase?
+    self.counter = 6
+  end
+
+  def game_over?
+    self.counter == 6 || game_won?
+  end
+
+  def game_won?
+    self.phrase.display_vals == self.phrase.true_vals
+  end
+
+  def play_game
     display.game_instructions
+    display.word_and_gallows
 
     until self.game_over?
-      display.word_and_gallows
       display.prompt_for_guess
-      @user_input = gets.chomp.downcase
-      if @user_input.size == 1
-        self.check_letter
-      elsif @user_input.size == 2
-        @second_chance = @user_input.split("")[0]
-        puts "Did you mean #{@second_chance}? Yes/No"
-        @check = gets.chomp.downcase
-          if @check == "yes"
-            @user_input = @second_chance
-            self.check_letter
-          end
+      get_user_input
+      if self.user_input.is_already_guessed_letter
+        self.display.already_guessed_message(self.user_input.value)
+      elsif self.user_input.is_number || self.user_input.is_empty_string
+        self.display.invalid_input_message
+      elsif self.user_input.is_single_char
+        check_letter
+        self.display.word_and_gallows
+      elsif self.user_input.is_two_chars
+        second_chance
       else
-        self.check_word
+        check_word
+        self.display.word_and_gallows
       end
     end
-
     end_of_game
-
   end
 
   def update_user

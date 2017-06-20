@@ -1,8 +1,3 @@
-require 'pry'
-require_relative './phrase.rb'
-require_relative './gallows.rb'
-require_relative './user.rb'
-
 class Display
 
   def initialize(hangman_instance)
@@ -27,7 +22,7 @@ class Display
     puts ""
   end
 
-  def prompt_for_difficulty
+  def self.prompt_for_difficulty
     puts "Pick Your Game Difficulty:
           E - Easy
           M - Medium
@@ -48,6 +43,25 @@ class Display
 
   def prompt_for_guess
     puts "Enter your guess."
+    puts ""
+  end
+
+  def invalid_input_message
+    puts "Invalid input!"
+    puts ""
+  end
+
+  def already_guessed_message(value)
+    puts "You've already guessed #{value}. Guess again."
+    puts ""
+  end
+
+  def second_chance_prompt(value)
+    puts "Did you mean #{value}? (Enter Y or N.)"
+  end
+
+  def wrong_guess_message
+    puts "You Guessed Wrong"
     puts ""
   end
 
@@ -74,26 +88,5 @@ class Display
       Q - Quit"
       puts ""
   end
-
-  # def self.welcome_menu
-  #   puts "Welcome to Hangman!!
-  #
-  #         ~~~~~~~~~~~~~~~~
-  #         ||  MAIN MENU ||
-  #         ~~~~~~~~~~~~~~~~
-  #
-  #         What would you like to do?
-  #         S - Start Game
-  #         C - Check Score
-  #         Q - Quit
-  #   "
-  #   # option: start game, check score, print instructions, or quit
-  #   # will also call back to proper method in hangman class
-  # end
-  #
-  # def self.main_menu_input
-  #   user_input = gets.chomp
-  # end
-
 
 end

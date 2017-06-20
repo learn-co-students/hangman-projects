@@ -1,12 +1,6 @@
-require 'pry'
-require_relative './hangman.rb'
-require_relative './phrase.rb'
-require_relative './gallows.rb'
-require_relative './user.rb'
-require_relative './display.rb'
-
 class GameRunner
   attr_reader :user, :game, :display
+  attr_accessor :user_input
 
   def initialize
     @exit = false
@@ -18,12 +12,23 @@ class GameRunner
     @user = User.new(gets.chomp)
   end
 
+  def difficulty_level(user_input)
+    case user_input.downcase
+    when "m"
+      :medium
+    when "h"
+      :hard
+    else
+      :easy
+    end
+  end
+
   def start_new_game
-    # TODO break this out
-    @game = Hangman.new
+    Display.prompt_for_difficulty
+    @game = Hangman.new(difficulty_level(gets.chomp))
     @game.session = self
-    # TODO make game stuff in display pull from session var?
     @display = Display.new(@game)
+    @user_input = Input.new(@game)
     self.game.play_game
   end
 
@@ -59,33 +64,3 @@ class GameRunner
   end
 
 end
-
-# code that possibly gets moved to run?
-
-session = GameRunner.new
-session.run_game
-
-# new_game = Hangman.new
-# display = Display.new(new_game)
-# display.display_word_and_gallows
-#
-#
-# binding.pry
-
-# def self.display_main_menu
-#   Display.welcome_menu
-# end
-#
-# def self.get_main_menu_input
-#   gets.chomp
-# end
-#
-# def self.main_menu_logic
-#   display_main_menu
-#   input = get_main_menu_input
-#
-#   case input.downcase
-#   when "s"
-#   Hangman.new
-#   when
-# end

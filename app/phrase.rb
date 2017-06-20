@@ -1,9 +1,4 @@
-require "pry"
-
 class Phrase
-# TODO - break parsing logic (stuff with blanks) back out into Hangman class
-# TODO - add logic to this class to hold word list and pop words out of it
-
   attr_accessor :true_vals, :display_vals, :guessed_letters
   attr_reader :original_phrase
 

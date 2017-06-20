@@ -1,5 +1,3 @@
-require 'pry'
-
 class Gallows
 
   def self.display_gallows(counter)
