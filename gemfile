@@ -1,6 +1,10 @@
 source 'https://rubygems.org' do
   # Gems here
   gem 'pry-byebug'
+  gem 'random-word'
+  gem 'require_all'
 end
 
 require 'pry-byebug'
+require 'random-word'
+require 'require_all'

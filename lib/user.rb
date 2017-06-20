@@ -29,4 +29,19 @@ class User
     self.all[id - 1]
   end
 
+  def self.win_ratio
+      total_arr = User.all.each do |user|
+        user.games.each_with_object([]){|game, arr| arr << game}
+      end
+      win_arr = User.all.each do |user|
+        user.games.each_with_object([]){|game, arr| arr << game if game.status == "won"}
+      end
+      if !total_arr.length == 0
+        win_ratio = win_arr.length / total_arr.length
+      else
+        win_ratio = 0
+      end
+  end
+
+
 end

@@ -43,8 +43,6 @@ class Turn
         display.letter_array.each_with_index do |let, idx|
           if let == self.user_input
             display.display_array[idx] = let
-          # elsif !let == user_input
-          #   @incorrect_guesses << user_input
           end
         end
       end
@@ -57,8 +55,6 @@ class Turn
 
 end
 
-
-
   def valid_move?
     if Dictionary.alphabet.include?(self.user_input) || self.user_input == "EXIT" || self.user_input.length == self.word.length || self.user_input == self.word
       true
@@ -70,27 +66,3 @@ end
       ## TURN
     end
   end
-
-
-  # def turn
-  #   puts "Please enter a letter:"
-  #   user_input = gets.upcase.chomp
-  #   if !user_input == @word && user_input.length == @word.length
-  #     puts "TEST"
-  #     @incorrect_guesses << user_input
-  #   elsif !valid_move?(user_input)
-  #     turn
-  #   elsif self.incorrect_guesses.include?(user_input)
-  #     puts "You already guessed that, and it's wrong!"
-  #     turn
-  #   elsif self.display_array.include?(user_input)
-  #     puts "That's already on the board..."
-  #     turn
-  #   elsif user_input == "EXIT"
-  #     self.exit_game = true
-  #   elsif user_input == @word
-  #     @display_array = @letter_array
-  #   else
-  #     self.correct?(user_input)
-  #   end
-  # end

@@ -12,17 +12,17 @@ class Game
   attr_reader :user_input, :incorrect_guesses, :word, :letter_array, :display
 
   def initialize
-    @word = Dictionary.words.sample
+    @word = Dictionary.words ## New dictionary doesn't use sample here
+    # @word = Dictionary.words.sample
     @display = Display.new(@word)
-    # @incorrect_guesses = []
     @status = "playing game"
     @exit_game = false
     @users = []
   end
 
-  # def guesses
-  #   guesses = display.guesses.length
-  # end
+  def self.all
+    @@all
+  end
 
   def won?
     display.display_array == display.letter_array ? true : false
@@ -33,7 +33,6 @@ class Game
   end
 
   # play provides flow for the whole game
-  # until game.hanged? == true; break if game.won? == true
   def play
     puts "Can you save yourself from the gallows pole?"
     puts "Please enter your user name, or type 'GAMES' to view your history:"
@@ -57,7 +56,7 @@ class Game
     if self.hanged? == true
       display.gallows
       puts "You've been HANGED!"
-      puts "The word was #{self.word}. How did you not guess that?"
+      puts "The word was #{self.word.upcase}. How did you not guess that?"
       self.status = "lost"
       self.save
       self.play_again?
@@ -71,6 +70,7 @@ class Game
       puts "Don't be a quitter. Try again!"
       self.status = "exited"
       self.save
+      abort # If user presses "enter" for user_name and then types exit, it returns the board again. Typing exit after that should exit, but hopefully this #abort fixes the issue
     end
   end
 
