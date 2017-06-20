@@ -12,7 +12,7 @@ class Game
   attr_reader :incorrect_guesses, :word, :letter_array, :display
 
   def initialize
-    @word = Dictionary.words ## New dictionary doesn't use sample here
+    @word = Dictionary.words.upcase ## New dictionary doesn't use sample here
     @display = Display.new(@word)
     @status = "playing game"
     @exit_game = false

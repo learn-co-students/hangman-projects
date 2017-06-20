@@ -16,6 +16,7 @@ class Turn
     puts "Please enter a letter:"
     user_input = gets.upcase.chomp
     @user_input = user_input
+    # binding.pry
     if self.user_input == "EXIT"
       self.game.exit_game = true
     elsif !self.user_input == self.word && self.user_input.length == self.word.length
@@ -38,6 +39,7 @@ class Turn
   def correct?(user_input)
     if display.letter_array.include?(user_input)
       display.letter_array.each_with_index do |let, idx|
+        # binding.pry
         if let == self.user_input
           display.display_array[idx] = let
         end
@@ -47,8 +49,7 @@ class Turn
     end
   end
 
-
-  # def correct?(user_input)
+  #   def correct?(user_input)
   #   display.letter_array.each_with_object(display.display_array) do |letter, blank|
   #     if display.letter_array.include?(user_input)
   #       display.letter_array.each_with_index do |let, idx|
@@ -62,7 +63,6 @@ class Turn
   #     display.guesses << self.user_input
   #   end
   # end
-  # end
 
   def valid_move?
     if Dictionary.alphabet.include?(self.user_input) || self.user_input == "EXIT" || self.user_input.length == self.word.length || self.user_input == self.word
@@ -73,3 +73,5 @@ class Turn
       puts "That's already on the board..."
     end
   end
+
+end
