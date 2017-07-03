@@ -1,7 +1,7 @@
 class Gallows
 
   def self.display_gallows(counter)
-
+    # consider using a hash or an array here.
     case counter
     when 1
       self.display1

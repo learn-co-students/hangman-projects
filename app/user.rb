@@ -12,11 +12,11 @@ class User
   end
 
   def self.all
-  @@all
+    @@all
   end
 
   def score_board
-    
+
   end
 
 end
