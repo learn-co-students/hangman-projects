@@ -43,6 +43,8 @@ class Dictionary
       "AWARDS",
       "POLACRE"
     ]
+    # NOTE Now this is doing more than the method name suggests
+    # Nested if else statements
     r = rand(1..100)
     if !User.all
       words = dict.sample

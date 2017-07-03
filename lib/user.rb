@@ -26,6 +26,7 @@ class User
   end
 
   def self.win_ratio
+    # NOTE cool method
       total_arr = User.all.each do |user|
         user.games.each_with_object([]){|game, arr| arr << game}
       end
