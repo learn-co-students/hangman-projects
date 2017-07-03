@@ -4,6 +4,7 @@ require_relative 'dashes.rb'
 require_relative 'hangman_strings.rb'
 
 class SP_Hangman
+  #
   attr_accessor :player, :words, :dashes, :secret_word, :guessed_letters, :number_of_limbs
 
 
@@ -12,6 +13,7 @@ class SP_Hangman
     words_raw_json = File.read('english_words.json')
     @words = JSON.parse(words_raw_json)
     @player = player
+    # this reveals another object
     @guessed_letters = []
   end
 
@@ -33,7 +35,8 @@ class SP_Hangman
   end
 
   def find_word
-    #107567
+    # 107567
+    # 
     @secret_word = @words[rand(0..107566)]
     @dashes = Dashes.make_dashes(@secret_word)
     @secret_char_array = @secret_word.chars
