@@ -25,6 +25,7 @@ def get_user_input
   when "2" then goodbye
   else
     puts "Not a valid entry. Please enter one of the commands listed."
+    # NOTE stay at the same level of abstraction
     display_commands
   end
 end
@@ -53,6 +54,7 @@ end
 def draw_hangman (num)
   # Draws the appropriate hangman picture using our game instance variable bad_guesses
   my_ascii_pic = File.read("app/hangman_picture_#{num}.txt")
+  # NOTE this is cool
   system "clear"
   puts my_ascii_pic
 end

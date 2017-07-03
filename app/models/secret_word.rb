@@ -11,6 +11,7 @@ class SecretWord
   end
 
   def update_blanks
+    # NOTE This is something that does something as opposed to is something
     new_blanks = self.answer.chars.each_with_object("") do |each_letter, letters_to_display|
         if self.correct_guesses.include?(each_letter)
           letters_to_display << "#{each_letter} "
@@ -18,10 +19,11 @@ class SecretWord
           letters_to_display << "_ "
         end
       end
+      # NOTE and this queries
       if !new_blanks.include?("_")
         @revealed = true
       end
-    puts new_blanks    
+    puts new_blanks
   end
 
 

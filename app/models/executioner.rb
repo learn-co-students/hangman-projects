@@ -16,6 +16,7 @@ class Executioner
   end
 
   def evaluate_guess(letter)
+    # NOTE how would you really describe this method, does it do too many things?
     if self.secret_word.answer.include?(letter)
       self.secret_word.correct_guesses << letter.upcase
       return true
