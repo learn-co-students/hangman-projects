@@ -1,6 +1,7 @@
 require 'pry'
-
+# NOTE use multiple files
 class User
+
   attr_accessor :name, :wins, :losses, :games
 
   @@all = []
@@ -20,6 +21,8 @@ class User
 end
 
 class Games
+  # NOTE our class names should be singular
+  # NOTE would have more objects.
   attr_accessor :user
   @@all = []
   def initialize(name)
@@ -30,7 +33,7 @@ class Games
     @@all
   end
 end
-
+# NOTE all of our methods should be in objects
 def new_game
   Games.new(get_user)
 end
