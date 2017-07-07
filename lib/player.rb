@@ -4,6 +4,8 @@ class Player
   @@all = []
   def initialize (name)
     @name = name
+
+    # Can calculate this if player has many games
     self.wins = 0
     self.losses = 0
     @@all << self

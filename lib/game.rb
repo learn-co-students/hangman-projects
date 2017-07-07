@@ -99,10 +99,12 @@ def start_game(player_name)
         puts "You've already tried that, please try again"
       elsif word.guesses.last[:valid] == false
         hang_man += 1
+        # NOTE: This data of hang_man can be stored/calculated from the number of letters guessed,etc.
         wrong_letters << letter
       end
       # !!! if all letters are guess && hang_man < 6 then game is won
       check_letters = word.letters.all? {|letter| letter.visible == true}
+      # NOTE: This logiic should probably be in the word logic?
       if hang_man < 6 && check_letters
         puts hangman_img[7]
         puts word.display_board

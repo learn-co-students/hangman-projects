@@ -3,7 +3,7 @@ require 'pry'
 
 # require_relative "letter.rb"
 # require_relative 'word.rb'
-
+# NOTE: great - this is your view, nice separation of concerns.s
 def title
   puts "                        WELCOME TO                            "
   puts "888                                                           "

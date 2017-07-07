@@ -16,7 +16,7 @@ class Word
   # def self.library
   #   @@library
   # end
-
+# NOTE: maybe could be calculated from previous games, etc.
   def self.used_words
     @@used_words
   end
@@ -27,7 +27,9 @@ class Word
     self.get_synonyms
     self.get_definitions
     self.hints = self.synonyms + self.definitions
+    # nice.
     self.guesses = []
+    # maybe guesses should be it's own object.
     @@used_words << self.answer
     RandomWord.exclude_list << self.answer
     # @@library.delete(self.answer)
@@ -53,6 +55,7 @@ class Word
     # corresponding characters and defaulted to not visible
     characters = self.answer.split('')
     # -> ['t', 'h', 'i', 'n', 'g']
+    # NOTE: just use map here, instead of each with object.
     @letters = characters.each_with_object([]) { |character, array|
       letter = Letter.new(character)
       array << letter
@@ -67,6 +70,7 @@ class Word
   end
 
   def guess(guess)
+    # NOTE: Probably does not belong in the word class
     # receive a guessed letter from user
     # if the guessed letter appears in the @letters array
     # find all the indexes that the letter appears in the array
@@ -90,10 +94,12 @@ class Word
   end
 
   def display_guesses
+    # NOTE: Probably does not belong in the word class
     self.guesses.select{|guess| guess[:valid] == false}.map{|guess| guess[:character]}.uniq.join(' ')
   end
 
   def display_board
+    # NOTE: Probably does not belong in the word class
     self.blanks.join(' ')
   end
 
